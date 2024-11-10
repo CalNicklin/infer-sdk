@@ -11,7 +11,7 @@ export default function Dashboard() {
   const generateKey = async () => {
     setLoading(true)
     try {
-      const response = await fetch('/api/generate-key', {
+      const response = await fetch('/api/key', {
         method: 'POST',
       })
       const data = await response.json()

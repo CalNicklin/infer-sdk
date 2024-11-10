@@ -24,7 +24,7 @@ export async function POST() {
     const subscription = await stripe.subscriptions.create({
       customer: customer.id,
       items: [{
-        price: process.env.STRIPE_PRICE_ID!
+        price: process.env.STRIPE_PRICE_ID!,
       }],
       payment_behavior: 'default_incomplete',
       expand: ['latest_invoice.payment_intent'],
