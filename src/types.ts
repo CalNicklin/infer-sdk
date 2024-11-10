@@ -14,7 +14,6 @@ export interface ZeroShotResponse {
 
 export interface ZeroShotOptions {
   multiLabel?: boolean;
-  temperature?: number;
 }
 
 // Error types

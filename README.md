@@ -57,10 +57,7 @@ labels: string[]
 const result = await infer.zeroShot.classify(
 text: string,
 labels: string[],
-{
-multiLabel: true,
-temperature: 0.7
-}
+options: ZeroShotOptions
 );
 ```
 
@@ -95,7 +92,6 @@ import type { ZeroShotResponse, ZeroShotOptions } from 'infer';
 
 const options: ZeroShotOptions = {
 multiLabel: true,
-temperature: 0.7
 };
 
 ```
