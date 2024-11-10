@@ -8,9 +8,16 @@
     "start": "next start"
   },
   "dependencies": {
+    "@clerk/nextjs": "^6.3.0",
     "@infer/node-sdk": "workspace:*",
+    "@unkey/api": "^0.26.2",
     "next": "latest",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "stripe": "^14.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1"
   }
 }
