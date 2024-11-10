@@ -45,7 +45,7 @@ export default function Dashboard() {
 
         {apiKey && (
           <p className="mt-4 text-sm text-gray-600">
-            Store this key securely. You won't be able to see it again.
+            Store this key securely. You won&apos;t be able to see it again.
           </p>
         )}
       </div>
