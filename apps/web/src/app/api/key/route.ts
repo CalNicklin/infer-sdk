@@ -1,4 +1,4 @@
-import { auth } from '@clerk/nextjs/server'
+import { auth, currentUser } from '@clerk/nextjs/server'
 import { Unkey } from '@unkey/api'
 import Stripe from 'stripe'
 import { NextResponse } from 'next/server'
@@ -13,11 +13,18 @@ export async function POST() {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    const user = await currentUser()
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
     // Create Stripe customer
     const customer = await stripe.customers.create({
       metadata: {
         userId
-      }
+      },
+      email: user.primaryEmailAddress?.emailAddress,
+      name: user.firstName + ' ' + user.lastName
     })
 
     // Create subscription
@@ -27,7 +34,7 @@ export async function POST() {
         price: process.env.STRIPE_PRICE_ID!,
       }],
       payment_behavior: 'default_incomplete',
-      expand: ['latest_invoice.payment_intent'],
+      expand: ['pending_setup_intent'],
     })
 
     // Generate API key with Unkey
@@ -40,15 +47,15 @@ export async function POST() {
       }
     })
 
-    return NextResponse.json({ 
+    return NextResponse.json({
       key: key?.key,
-      clientSecret: subscription.latest_invoice?.payment_intent?.client_secret
+      subscriptionId: subscription.id
     })
 
   } catch (error) {
     console.error('Error:', error)
     return NextResponse.json(
-      { error: 'Failed to generate key' }, 
+      { error: 'Failed to generate key' },
       { status: 500 }
     )
   }
