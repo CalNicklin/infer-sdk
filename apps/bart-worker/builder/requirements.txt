@@ -1,0 +1,4 @@
+runpod==1.6.2
+transformers==4.42.3
+torch
+hf_transfer

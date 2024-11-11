@@ -22,10 +22,10 @@ const EnvSchema = z.object({
   RUNPOD_API_KEY: z.string(),
 })
 
-export type env = z.infer<typeof EnvSchema>;
+export type Env = z.infer<typeof EnvSchema>;
 
 // eslint-disable-next-line ts/no-redeclare
-const { data: env, error } = EnvSchema.safeParse(process.env);
+const { data: parsedEnv, error } = EnvSchema.safeParse(process.env);
 
 if (error) {
   console.error("❌ Invalid env:");
@@ -33,4 +33,6 @@ if (error) {
   process.exit(1);
 }
 
-export default env!;
+// Since we exit the process if there's an error,
+// we can safely assert that parsedEnv exists here
+export const env = parsedEnv as Env;

@@ -1,15 +1,16 @@
 import { Context } from 'hono'
+import { env } from '../env'
 
 export async function handle(c: Context) {
   try {
     const body = await c.req.json()
     
     // Forward request to RunPod
-    const response = await fetch(process.env.RUNPOD_ENDPOINT!, {
+    const response = await fetch(env.RUNPOD_ENDPOINT, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.RUNPOD_API_KEY}`
+        'Authorization': `Bearer ${env.RUNPOD_API_KEY}`
       },
       body: JSON.stringify(body)
     })
