@@ -1,4 +1,4 @@
-runpod==1.6.2
-transformers==4.42.3
-torch
-hf_transfer
+transformers==4.46.2
+torch==2.2.1
+runpod==1.7.4
+tqdm-loggable==0.2

@@ -18,7 +18,7 @@ const EnvSchema = z.object({
   UNKEY_TOKEN: z.string(),
   STRIPE_SECRET_KEY: z.string(),
   STRIPE_SUBSCRIPTION_ITEM_ID: z.string(),
-  RUNPOD_ENDPOINT: z.string(),
+  RUNPOD_ENDPOINT_ID: z.string(),
   RUNPOD_API_KEY: z.string(),
 })
 
