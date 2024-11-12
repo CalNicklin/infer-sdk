@@ -7,9 +7,8 @@ export async function handle(c: Context) {
       sequence: string
       labels: string[]
     }
-    
-    // Forward request to RunPod
-    const response = await fetch(`https://api.runpod.ai/v2/${env.RUNPOD_ENDPOINT_ID}/runsync`, {
+
+    const response = await fetch(`${env.BART_WORKER_URL}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

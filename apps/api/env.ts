@@ -20,6 +20,7 @@ const EnvSchema = z.object({
   STRIPE_SUBSCRIPTION_ITEM_ID: z.string(),
   RUNPOD_ENDPOINT_ID: z.string(),
   RUNPOD_API_KEY: z.string(),
+  BART_WORKER_URL: z.string(),
 })
 
 export type Env = z.infer<typeof EnvSchema>;

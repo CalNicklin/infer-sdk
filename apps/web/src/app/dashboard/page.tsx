@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
 export default function Dashboard() {
@@ -21,31 +22,33 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-8">
-      <h1 className="text-3xl font-bold mb-8">Dashboard</h1>
+    <div className="min-h-screen bg-gray-400 text-gray-800 font-mono">
+      <div className="max-w-4xl mx-auto p-8">
+        <h1 className="text-3xl font-bold mb-8">Dashboard</h1>
 
-      <div className="bg-white shadow rounded-lg p-6">
-        <h2 className="text-xl font-semibold mb-4">Your API Key</h2>
+        <div className="bg-gray-100 rounded-lg p-6">
+          <h2 className="text-xl font-semibold mb-4">Your API Key</h2>
 
-        {!apiKey ? (
-          <button
-            onClick={generateKey}
-            disabled={loading}
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 disabled:opacity-50"
-          >
-            {loading ? "Generating..." : "Generate API Key"}
-          </button>
-        ) : (
-          <div className="bg-gray-50 p-4 rounded-md">
-            <code className="text-sm break-all">{apiKey}</code>
-          </div>
-        )}
+          {!apiKey ? (
+            <Button
+              onClick={generateKey}
+              disabled={loading}
+              className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 disabled:opacity-50"
+            >
+              {loading ? "Generating..." : "Generate API Key"}
+            </Button>
+          ) : (
+            <div className="bg-white p-4 rounded-md">
+              <code className="text-sm break-all">{apiKey}</code>
+            </div>
+          )}
 
-        {apiKey && (
-          <p className="mt-4 text-sm text-gray-600">
-            Store this key securely. You won&apos;t be able to see it again.
-          </p>
-        )}
+          {apiKey && (
+            <p className="mt-4 text-sm text-gray-600">
+              Store this key securely. You won&apos;t be able to see it again.
+            </p>
+          )}
+        </div>
       </div>
     </div>
   );
