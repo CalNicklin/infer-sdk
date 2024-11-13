@@ -37,7 +37,9 @@ export default async function Home() {
           <h2 className="text-xl font-semibold mb-4">Features</h2>
           <ul className="list-disc list-inside">
             <li>🏗️ No infra to manage</li>
-            <li>🧸 No local models</li>
+            <li>🧸 No need to cache models, no need to quantize</li>
+            <li>🧨 < 250ms first response</li>
+            <li>📈 Cheaper than HF Inference</li>
             <li>🚀 Zero-shot classification</li>
             <li>💪 Full TypeScript support</li>
             <li>🔒 Built-in error handling</li>
