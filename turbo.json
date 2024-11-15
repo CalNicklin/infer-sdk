@@ -1,5 +1,4 @@
 {
-  "turbo": {
     "globalDependencies": ["**/.env.*local"],
     "pipeline": {
       "build": {
@@ -12,5 +11,4 @@
         "persistent": true
       }
     }
-  }
 }
