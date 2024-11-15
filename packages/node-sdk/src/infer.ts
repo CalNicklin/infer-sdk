@@ -7,7 +7,7 @@ class Infer {
 
   constructor(config: InferConfig) {
     this.apiKey = config.apiKey;
-    this.baseUrl = config.baseUrl ?? 'https://api.infer-sdk.ai';
+    this.baseUrl = config.baseUrl ?? 'https://infer-api.vercel.app/api/zero-shot';
   }
 
   private async handleResponse<T>(response: Response): Promise<T> {
