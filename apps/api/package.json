@@ -5,18 +5,10 @@
   "scripts": {
     "dev": "tsc --watch --project tsconfig.json",
     "build": "tsc --project tsconfig.json",
-    "vercel-build": "tsc --project tsconfig.json",
-    "start": "vercel dev",
-    "deploy": "vercel",
-    "typecheck": "tsc --noEmit --project tsconfig.json",
-    "lint": "eslint src/**/*.ts"
+    "start": "node dist/index.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "@infer/node-sdk": "workspace:*",
-    "@unkey/api": "latest",
+    "@unkey/api": "^0.26.2",
     "dotenv": "^16.4.5",
     "dotenv-expand": "^11.0.6",
     "hono": "^4.6.9",

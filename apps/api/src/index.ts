@@ -7,8 +7,12 @@ import { pinoLogger } from './middleware/pino-logger'
 const app = new Hono()
 
 // Health check
-app.get('/', (c) => c.json({ message: 'Hello, world!' }))
-app.get('/health', (c) => c.json({ status: 'ok' }))
+app.get('/', (c) => {
+  return c.json({ message: 'Hello, world!' })
+})
+app.get('/health', (c) => {
+  return c.json({ status: 'ok' })
+})
 
 // Protected routes
 app.use('/api/*', authMiddleware)
@@ -18,5 +22,4 @@ app.use(pinoLogger());
 // Main inference endpoint
 app.post('/api/zero-shot', zeroShotHandler)
 
-// Export the app for Vercel handler
 export { app }
