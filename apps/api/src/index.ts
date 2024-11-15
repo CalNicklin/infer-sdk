@@ -16,5 +16,6 @@ app.use(pinoLogger());
 
 // Main inference endpoint
 app.post('/api/zero-shot', handle)
+app.get('/', (c) => c.json({ message: 'Hello, world!' }))
 
 export default app
