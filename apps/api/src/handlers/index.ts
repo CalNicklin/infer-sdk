@@ -1,7 +1,7 @@
 import { Context } from 'hono'
 import { env } from '../env'
 
-export async function handle(c: Context) {
+export async function zeroShotHandler(c: Context) {
   try {
     const body = await c.req.json() as {
       sequence: string

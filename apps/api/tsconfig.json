@@ -14,7 +14,7 @@
   },
   "include": [
     "src/**/*",
-    "tsup.config.ts"
+    "api/**/*"
   ],
   "exclude": [
     "node_modules",
