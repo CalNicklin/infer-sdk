@@ -7,7 +7,7 @@ class Infer {
 
   constructor(config: InferConfig) {
     this.apiKey = config.apiKey;
-    this.baseUrl = config.baseUrl ?? 'https://api.infer.ai';
+    this.baseUrl = config.baseUrl ?? 'https://api.infer-sdk.ai';
   }
 
   private async handleResponse<T>(response: Response): Promise<T> {
