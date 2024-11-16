@@ -15,7 +15,7 @@ export async function usageMiddleware(c: Context, next: () => Promise<void>) {
     await stripe.billing.meterEvents.create({
       event_name: 'infer-api',
       payload: {
-        stripe_customer_id: c.get('ownerId'),
+        stripe_customer_id: c.get('stripeCustomerId'),
         value: totalTokens
       },
       timestamp: Math.floor(Date.now() / 1000)
