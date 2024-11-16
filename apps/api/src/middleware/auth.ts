@@ -19,6 +19,7 @@ export async function authMiddleware(c: Context, next: () => Promise<void>) {
   // Attach key metadata to context for usage tracking
   c.set('keyId', result.keyId)
   c.set('ownerId', result.ownerId)
+  c.set('stripeCustomerId', result.meta?.stripeCustomerId)
   
   await next()
 }
