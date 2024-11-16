@@ -3,10 +3,12 @@ import { Unkey } from '@unkey/api'
 import Stripe from 'stripe'
 import { NextResponse } from 'next/server'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
-const unkey = new Unkey({ token: process.env.UNKEY_TOKEN! })
 
 export async function POST() {
+  
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
+  const unkey = new Unkey({ token: process.env.UNKEY_TOKEN! })
+
   try {
     const { userId } = await auth()
     if (!userId) {
