@@ -8,6 +8,20 @@ interface SDKRequest {
   }
 }
 
+interface RunPodResponse {
+  status: 'COMPLETED' | 'FAILED'
+  id: string
+  output: {
+    status: 'success' | 'error'
+    data?: {
+      labels: string[]
+      scores: number[]
+      sequence: string
+    }
+    error?: string
+  }
+}
+
 export async function zeroShotHandler(c: Context) {
   try {
     const sdkBody = await c.req.json() as SDKRequest
@@ -28,11 +42,20 @@ export async function zeroShotHandler(c: Context) {
       body: JSON.stringify(runpodBody)
     })
 
-    const data = await response.json()
+    const runpodResponse = await response.json() as RunPodResponse
 
-    console.log('RunPod response:', JSON.stringify(data, null, 2))
+    if (runpodResponse.status === 'FAILED' || runpodResponse.output.status === 'error') {
+      console.error('RunPod error:', runpodResponse)
+      return c.json({
+        error: 'Model inference failed',
+        details: runpodResponse.output.error
+      }, 502)
+    }
 
-    return c.json(data)
+    return c.json({
+      labels: runpodResponse.output.data?.labels || [],
+      scores: runpodResponse.output.data?.scores || []
+    })
 
   } catch (error) {
     console.error('Error:', error)
