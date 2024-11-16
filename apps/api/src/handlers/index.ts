@@ -1,11 +1,20 @@
 import { Context } from 'hono'
 import { env } from '../env'
 
+interface SDKRequest {
+  inputs: string
+  parameters: {
+    candidate_labels: string
+  }
+}
+
 export async function zeroShotHandler(c: Context) {
   try {
-    const body = await c.req.json() as {
-      sequence: string
-      labels: string[]
+    const sdkBody = await c.req.json() as SDKRequest
+
+    const bartBody = {
+      sequence: sdkBody.inputs,
+      labels: sdkBody.parameters.candidate_labels
     }
 
     const response = await fetch(`${env.BART_WORKER_URL}`, {
@@ -14,7 +23,7 @@ export async function zeroShotHandler(c: Context) {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${env.RUNPOD_API_KEY}`
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(bartBody)
     })
 
     const data = await response.json()
