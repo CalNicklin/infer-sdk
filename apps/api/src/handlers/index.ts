@@ -12,9 +12,10 @@ export async function zeroShotHandler(c: Context) {
   try {
     const sdkBody = await c.req.json() as SDKRequest
 
+    // Transform SDK format to BART format
     const bartBody = {
       sequence: sdkBody.inputs,
-      labels: sdkBody.parameters.candidate_labels
+      labels: sdkBody.parameters.candidate_labels.split(',').map(l => l.trim())  // Convert back to array
     }
 
     const response = await fetch(`${env.BART_WORKER_URL}`, {
