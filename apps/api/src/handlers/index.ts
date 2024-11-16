@@ -3,7 +3,7 @@ import { env } from '../env'
 
 export async function zeroShotHandler(c: Context) {
   try {
-    const body = await c.req.json() as {
+    const body = c.get('parsedBody') as {
       sequence: string
       labels: string[]
     }
