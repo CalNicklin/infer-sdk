@@ -1,6 +1,7 @@
 {
   "name": "@infer/api",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "tsc --watch --project tsconfig.json",
@@ -13,6 +14,7 @@
     "dotenv-expand": "^11.0.6",
     "hono": "^4.6.9",
     "hono-pino": "^0.6.0",
+    "@infer/node-sdk": "file:../../packages/node-sdk",
     "pino": "^9.5.0",
     "pino-pretty": "^12.1.0",
     "stripe": "^14.0.0",

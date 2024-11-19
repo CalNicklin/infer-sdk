@@ -1,9 +1,9 @@
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
-import { zeroShotHandler } from './handlers/index'
-import { authMiddleware } from './middleware/auth'
-import { usageMiddleware } from './middleware/usage'
-import { pinoLogger } from './middleware/pino-logger'
+import { zeroShotHandler } from './handlers/index.js'
+import { authMiddleware } from './middleware/auth.js'
+import { usageMiddleware } from './middleware/usage.js'
+import { pinoLogger } from './middleware/pino-logger.js'
 
 const app = new Hono()
 

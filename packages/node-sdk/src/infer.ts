@@ -1,5 +1,11 @@
-import { type InferConfig, type ZeroShotResponse, type ZeroShotOptions } from './types.js';
+import {
+  type InferConfig,
+  type ZeroShotResponse,
+  type ZeroShotOptions,
+  type APIErrorResponse
+} from './types/types.js';
 import { InferError, UnauthorizedError, RateLimitError } from './error.js';
+import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 
 class Infer {
   private apiKey: string;
@@ -11,27 +17,32 @@ class Infer {
   }
 
   private async handleResponse<T>(response: Response): Promise<T> {
-    if (response.ok) {
-      return await response.json() as T;
+    const data = await response.json().catch(() => ({
+      name: 'InferError',
+      status: response.status,
+      type: 'server_error',
+      message: 'Failed to parse response'
+    })) as T | APIErrorResponse;
+
+    // Check if response is an error
+    if (!response.ok) {
+      const error = data as APIErrorResponse;
+
+      switch (error.status) {
+        case 401:
+          throw new UnauthorizedError();
+        case 429:
+          throw new RateLimitError();
+        default:
+          throw new InferError({
+            status: error.status,
+            type: error.type,
+            message: error.message
+          });
+      }
     }
 
-    if (response.status === 401) {
-      throw new UnauthorizedError();
-    }
-
-    if (response.status === 429) {
-      throw new RateLimitError();
-    }
-
-    const error = await response.json().catch(() => ({
-      message: 'Unknown error occurred'
-    })) as { message: string }
-
-    throw new InferError({
-      code: 'server_error',
-      message: error.message,
-      status: response.status
-    });
+    return data as T;
   }
 
   get zeroShot() {
@@ -41,11 +52,19 @@ class Infer {
         labels: string[],
         options: ZeroShotOptions = {}
       ): Promise<ZeroShotResponse> => {
+        if (!text || !labels.length) {
+          throw new InferError({
+            status: StatusCodes.BAD_REQUEST,
+            type: ReasonPhrases.BAD_REQUEST,
+            message: 'Text and labels are required'
+          });
+        }
+
         const response = await fetch(`${this.baseUrl}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${this.apiKey}`,
+            Authorization: `Bearer ${this.apiKey}`
           },
           body: JSON.stringify({
             inputs: text,
@@ -62,4 +81,4 @@ class Infer {
   }
 }
 
-export default Infer
+export default Infer;

@@ -1,30 +1,38 @@
 import { Context } from 'hono'
-import { env } from '../env'
-
-interface SDKRequest {
-  inputs: string
-  parameters: {
-    candidate_labels: string
-  }
-}
-
-interface RunPodResponse {
-  status: 'COMPLETED' | 'FAILED'
-  id: string
-  output: {
-    status: 'success' | 'error'
-    data?: {
-      labels: string[]
-      scores: number[]
-      sequence: string
-    }
-    error?: string
-  }
-}
+import { env } from '../env.js'
+import {
+  type ZeroShotRequest,
+  type ZeroShotResponse,
+  type ZeroShotRunPodResponse,
+  type APIErrorResponse,
+  ZeroShotRunPodError,
+  ZeroShotRunPodOutput
+} from '@infer/node-sdk'
+import { ReasonPhrases, StatusCodes } from 'http-status-codes'
+import { StatusCode } from 'hono/utils/http-status'
 
 export async function zeroShotHandler(c: Context) {
   try {
-    const sdkBody = await c.req.json() as SDKRequest
+    // Validate auth first
+    const authHeader = c.req.header('Authorization')
+    if (!authHeader?.startsWith('Bearer ')) {
+      return createErrorResponse(c, {
+        status: StatusCodes.UNAUTHORIZED,
+        type: ReasonPhrases.UNAUTHORIZED,
+        message: 'Invalid API key'
+      })
+    }
+
+    const sdkBody = await c.req.json() as ZeroShotRequest
+
+    // Validate request body
+    if (!sdkBody.inputs || !sdkBody.parameters?.candidate_labels) {
+      return createErrorResponse(c, {
+        status: StatusCodes.BAD_REQUEST,
+        type: ReasonPhrases.BAD_REQUEST,
+        message: 'Missing required fields'
+      })
+    }
 
     const runpodBody = {
       input: {
@@ -42,23 +50,56 @@ export async function zeroShotHandler(c: Context) {
       body: JSON.stringify(runpodBody)
     })
 
-    const runpodResponse = await response.json() as RunPodResponse
+    const runpodResponse = await response.json() as ZeroShotRunPodResponse
 
-    if (runpodResponse.status === 'FAILED' || runpodResponse.output.status === 'error') {
+    if (runpodResponse.status === 'FAILED') {
       console.error('RunPod error:', runpodResponse)
-      return c.json({
-        error: 'Model inference failed',
-        details: runpodResponse.output.error
-      }, 502)
+      return createErrorResponse(c, {
+        status: StatusCodes.INTERNAL_SERVER_ERROR,
+        type: ReasonPhrases.INTERNAL_SERVER_ERROR,
+        message: (runpodResponse as ZeroShotRunPodError).error || 'Model inference failed'
+      })
     }
 
-    return c.json({
-      labels: runpodResponse.output.data?.labels || [],
-      scores: runpodResponse.output.data?.scores || []
-    })
+    const successResponse: ZeroShotResponse = {
+      labels: (runpodResponse as ZeroShotRunPodOutput).output.data.labels,
+      scores: (runpodResponse as ZeroShotRunPodOutput).output.data.scores,
+      metadata: {
+        latency: (runpodResponse as ZeroShotRunPodOutput).executionTime + (runpodResponse as ZeroShotRunPodOutput).delayTime,
+        tokenCount: c.get('inputTokens')
+      }
+    }
+
+    return c.json(successResponse)
 
   } catch (error) {
     console.error('Error:', error)
-    return c.json({ error: 'Internal server error' }, 500)
+    return createErrorResponse(c, {
+      status: StatusCodes.INTERNAL_SERVER_ERROR,
+      type: ReasonPhrases.INTERNAL_SERVER_ERROR,
+      message: error instanceof Error ? error.message : 'Internal server error'
+    })
   }
+}
+
+// Helper function to create consistent error responses
+function createErrorResponse(
+  c: Context,
+  {
+    status,
+    type,
+    message
+  }: {
+    status: StatusCodes;
+    type: ReasonPhrases;
+    message: string
+  }
+) {
+  const errorResponse: APIErrorResponse = {
+    name: 'InferError',
+    status,
+    type,
+    message
+  }
+  return c.json(errorResponse, status as StatusCode)
 }

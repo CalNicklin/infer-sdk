@@ -1,31 +1,43 @@
-export class InferError extends Error {
-  code: string;
-  status: number;
+import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
-  constructor({ code, message, status }: { code: string; message: string; status: number }) {
+export class InferError extends Error {
+  status: StatusCodes;
+  type: ReasonPhrases;
+
+  constructor({
+    status,
+    type,
+    message
+  }: {
+    status: StatusCodes;
+    type: ReasonPhrases;
+    message: string;
+  }) {
     super(message);
     this.name = 'InferError';
-    this.code = code;
     this.status = status;
+    this.type = type;
   }
 }
 
 export class UnauthorizedError extends InferError {
   constructor() {
     super({
-      code: 'unauthorized',
-      message: 'Invalid API key',
-      status: 401
+      status: StatusCodes.UNAUTHORIZED,
+      type: ReasonPhrases.UNAUTHORIZED,
+      message: 'Invalid API key'
     });
+    this.name = 'UnauthorizedError';
   }
 }
 
 export class RateLimitError extends InferError {
   constructor() {
     super({
-      code: 'rate_limited',
-      message: 'Rate limit exceeded',
-      status: 429
+      status: StatusCodes.TOO_MANY_REQUESTS,
+      type: ReasonPhrases.TOO_MANY_REQUESTS,
+      message: 'Rate limit exceeded'
     });
+    this.name = 'RateLimitError';
   }
 }
