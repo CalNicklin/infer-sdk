@@ -2,6 +2,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { BackgroundParticles } from "@/components/ui/background-particles";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -30,8 +31,18 @@ export default function RootLayout({
     >
       <html lang="en">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} bg-gray-400`}
+          className={`${geistSans.variable} ${geistMono.variable} bg-black min-h-screen`}
         >
+          {/* Background container */}
+          <div className="fixed inset-0">
+            {/* Prism Effect */}
+            <div className="absolute inset-0 opacity-50 pointer-events-none">
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/30 via-transparent to-blue-500/30" />
+              <div className="absolute inset-0 bg-gradient-to-tl from-red-500/30 via-transparent to-yellow-500/30" />
+            </div>
+            <BackgroundParticles />
+          </div>
+
           {children}
         </body>
       </html>

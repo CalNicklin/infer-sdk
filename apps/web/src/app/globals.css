@@ -11,3 +11,26 @@ body {
     --radius: 0.5rem;
   }
 }
+
+@keyframes marquee {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+.animate-marquee {
+  animation: marquee 60s linear infinite;
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.connection-line {
+  will-change: opacity;
+  transform: translateZ(0);
+}
+
+.connection-node {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
