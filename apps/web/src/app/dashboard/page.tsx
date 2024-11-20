@@ -21,7 +21,6 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
   ResponsiveContainer,
 } from "recharts";
 import {
@@ -29,7 +28,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { Copy, CreditCard, Key, User, Menu } from "lucide-react";
+import { Copy, CreditCard, User, Menu } from "lucide-react";
 import { UserButton } from "@clerk/nextjs";
 
 const apiUsageData = [
