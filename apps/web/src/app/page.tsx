@@ -30,17 +30,17 @@ export default function Home() {
     switch (activeSection) {
       case "home":
         return (
-          <div className="text-center space-y-8 relative z-10">
+          <div className="text-center space-y-6 sm:space-y-8 relative z-10">
             <motion.h1
-              className="text-7xl font-bold tracking-tighter"
+              className="text-4xl sm:text-7xl font-medium tracking-tighter text-white/90"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-              Infer
+              infer
             </motion.h1>
             <motion.p
-              className="text-2xl text-white/80"
+              className="text-xl sm:text-2xl text-white/60 font-light tracking-wide"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -53,7 +53,7 @@ export default function Home() {
               transition={{ duration: 0.8, delay: 0.4 }}
             >
               <Button
-                className="bg-white text-black hover:bg-white/90 transition-colors"
+                className="bg-white/10 text-white/90 hover:bg-white/20 transition-colors font-normal"
                 onClick={() => setActiveSection("features")}
               >
                 Explore
@@ -118,7 +118,7 @@ console.log(result);
   return (
     <div
       ref={containerRef}
-      className="min-h-screen w-screen overflow-hidden bg-transparent text-white font-mono"
+      className="min-h-screen w-screen overflow-hidden bg-transparent text-white"
     >
       <motion.div
         className="h-full w-full relative"
@@ -129,58 +129,77 @@ console.log(result);
         }}
       >
         {/* Navigation */}
-        <nav className="fixed top-0 left-0 w-full p-6 z-50 flex justify-between items-center">
-          <Link href="/" className="text-2xl font-bold">
-            Infer
-          </Link>
-          <div className="flex space-x-4">
-            {["Home", "Features", "Docs"].map((item) => (
-              <Button
-                key={item}
-                variant="ghost"
-                className="text-white/80 hover:text-white transition-colors"
-                onClick={() => setActiveSection(item.toLowerCase())}
-              >
-                {item}
-              </Button>
-            ))}
-            {isSignedIn ? (
-              <>
-                <Button
-                  asChild
-                  variant="ghost"
-                  className="text-white/80 hover:text-white transition-colors"
+        <nav className="fixed top-0 left-0 w-full px-4 sm:px-6 py-4 z-50 backdrop-blur-sm">
+          <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+            <Link
+              href="/"
+              className="text-2xl font-medium tracking-tight text-white/90"
+            >
+              infer
+            </Link>
+
+            <div className="flex flex-wrap justify-center sm:justify-end items-center gap-2 sm:gap-4">
+              {[
+                { name: "Home", section: "home" },
+                { name: "Features", section: "features" },
+                { name: "Docs", section: "docs" },
+              ].map((item) => (
+                <button
+                  key={item.name}
+                  onClick={() => setActiveSection(item.section)}
+                  className={`
+                    px-3 py-2 text-sm transition-colors font-sans
+                    ${
+                      activeSection === item.section
+                        ? "text-white font-medium"
+                        : "text-white/60 hover:text-white/80 font-normal"
+                    }
+                  `}
                 >
-                  <Link href="/dashboard">Dashboard</Link>
-                </Button>
-                <UserButton afterSignOutUrl="/" />
-              </>
-            ) : (
-              <>
-                <SignInButton mode="modal">
+                  {item.name}
+                </button>
+              ))}
+
+              <div className="h-4 w-px bg-white/20 mx-2 hidden sm:block" />
+
+              {isSignedIn ? (
+                <div className="flex items-center gap-2 sm:gap-4">
                   <Button
+                    asChild
                     variant="ghost"
-                    className="text-white/80 hover:text-white"
+                    className="text-white/70 hover:text-white/90 transition-colors font-normal"
                   >
-                    Sign In
+                    <Link href="/dashboard">Dashboard</Link>
                   </Button>
-                </SignInButton>
-                <SignUpButton mode="modal">
-                  <Button
-                    variant="ghost"
-                    className="text-white/80 hover:text-white"
-                  >
-                    Sign Up
-                  </Button>
-                </SignUpButton>
-              </>
-            )}
+                  <UserButton afterSignOutUrl="/" />
+                </div>
+              ) : (
+                <div className="flex items-center gap-2 sm:gap-4">
+                  <SignInButton mode="modal">
+                    <Button
+                      variant="ghost"
+                      className="text-white/70 hover:text-white/90 font-normal"
+                    >
+                      Sign In
+                    </Button>
+                  </SignInButton>
+                  <SignUpButton mode="modal">
+                    <Button
+                      variant="ghost"
+                      className="text-white/70 hover:text-white/90 font-normal"
+                    >
+                      Sign Up
+                    </Button>
+                  </SignUpButton>
+                </div>
+              )}
+            </div>
           </div>
         </nav>
 
         {/* Main Content */}
-        <main className="h-screen w-full flex items-center justify-center">
-          {renderContent()}
+        <main className="h-screen w-full flex items-center justify-center px-4 sm:px-6">
+          <div className="max-w-7xl mx-auto w-full">{renderContent()}</div>
         </main>
       </motion.div>
     </div>
