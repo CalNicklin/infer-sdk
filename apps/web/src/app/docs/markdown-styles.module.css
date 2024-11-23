@@ -1,0 +1,95 @@
+.markdown {
+  @apply text-white;
+}
+
+.markdown h1 {
+  @apply scroll-m-20 text-4xl font-bold tracking-tight lg:text-5xl mb-8 text-white;
+}
+
+.markdown h2 {
+  @apply scroll-m-20 border-b border-slate-700 pb-2 text-3xl font-semibold tracking-tight first:mt-0 mt-16 mb-4 text-white;
+}
+
+.markdown h3 {
+  @apply scroll-m-20 text-2xl font-semibold tracking-tight mt-8 mb-4 text-white;
+}
+
+.markdown h4 {
+  @apply scroll-m-20 text-xl font-semibold tracking-tight mt-6 mb-3 text-white;
+}
+
+.markdown p {
+  @apply leading-7 [&:not(:first-child)]:mt-6 text-white;
+}
+
+.markdown ul {
+  @apply my-6 ml-6 list-disc [&>li]:mt-2 text-white;
+}
+
+.markdown ol {
+  @apply my-6 ml-6 list-decimal [&>li]:mt-2 text-white;
+}
+
+.markdown code {
+  @apply relative rounded bg-slate-800 py-[0.2rem] px-[0.3rem] font-mono text-sm font-semibold text-white;
+}
+
+.markdown pre {
+  @apply bg-white/10 p-6 rounded-lg text-left my-4;
+  @apply overflow-x-auto;
+}
+
+.markdown pre code {
+  @apply text-sm whitespace-pre;
+  @apply p-0 bg-transparent;
+}
+
+.markdown blockquote {
+  @apply mt-6 border-l-2 border-slate-500 pl-6 italic text-white;
+}
+
+.markdown a {
+  @apply font-medium text-white underline underline-offset-4;
+}
+
+/* Tables */
+.markdown table {
+  @apply w-full my-6 text-sm text-white;
+}
+
+.markdown thead {
+  @apply border-b border-slate-700;
+}
+
+.markdown th {
+  @apply text-left font-medium p-4 text-white;
+}
+
+.markdown tbody tr {
+  @apply border-b border-slate-700;
+}
+
+.markdown td {
+  @apply p-4 text-white;
+}
+
+/* Inline elements */
+.markdown strong {
+  @apply font-semibold text-white;
+}
+
+/* Code blocks with syntax highlighting */
+.markdown pre[class*="language-"] {
+  @apply p-4;
+}
+
+/* Lists within lists */
+.markdown li > ul,
+.markdown li > ol {
+  @apply mt-2 mb-0;
+}
+
+/* Horizontal rule */
+.markdown hr {
+  @apply my-8 border-slate-700;
+}
