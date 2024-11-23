@@ -17,6 +17,7 @@ const EnvSchema = z.object({
   LOG_LEVEL: z.enum(["fatal", "error", "warn", "info", "debug", "trace", "silent"]),
   UNKEY_TOKEN: z.string(),
   STRIPE_SECRET_KEY: z.string(),
+  STRIPE_PAID_TIER_METER_ID: z.string(),
   STRIPE_SUBSCRIPTION_ITEM_ID: z.string(),
   RUNPOD_ENDPOINT_ID: z.string(),
   RUNPOD_API_KEY: z.string(),

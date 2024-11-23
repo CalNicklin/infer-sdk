@@ -4,27 +4,14 @@ import { useAuth } from "@clerk/nextjs";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
-import { useState, useEffect, useRef } from "react";
-import { motion, useSpring } from "framer-motion";
+import { useState, useRef } from "react";
+import { motion } from "framer-motion";
+import PricingPage from "./pricing/page";
 
 export default function Home() {
   const { isSignedIn } = useAuth();
   const [activeSection, setActiveSection] = useState("home");
   const containerRef = useRef<HTMLDivElement>(null);
-
-  const skewY = useSpring(0, { stiffness: 100, damping: 30 });
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const newSkew =
-        (scrollY / (document.body.offsetHeight - window.innerHeight)) * 15;
-      skewY.set(newSkew);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [skewY]);
 
   const renderContent = () => {
     switch (activeSection) {
@@ -45,7 +32,7 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              Redefining ML Inference
+              Fast ML inference for serverless environments
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -54,9 +41,9 @@ export default function Home() {
             >
               <Button
                 className="bg-white/10 text-white/90 hover:bg-white/20 transition-colors font-normal"
-                onClick={() => setActiveSection("features")}
+                onClick={() => setActiveSection("docs")}
               >
-                Explore
+                Get started
               </Button>
             </motion.div>
           </div>
@@ -67,14 +54,14 @@ export default function Home() {
             <h2 className="text-5xl font-bold mb-6">Features</h2>
             <ul className="grid grid-cols-2 gap-4 text-left max-w-2xl mx-auto">
               {[
-                "Serverless Architecture",
-                "Sub-250ms Response Time",
+                "Sub-250ms Cold Start",
                 "Zero-shot Classification",
                 "Full TypeScript Support",
                 "Intelligent Error Handling",
                 "Seamless ESM Integration",
                 "Cost-Effective Scaling",
-                "Automated Model Caching",
+                "Request Latency Tracking",
+                "Real-time API usage metrics",
               ].map((feature, index) => (
                 <li key={index} className="flex items-center">
                   <span className="w-2 h-2 bg-white rounded-full mr-2"></span>
@@ -82,6 +69,14 @@ export default function Home() {
                 </li>
               ))}
             </ul>
+          </div>
+        );
+      case "pricing":
+        return (
+          <div className="text-center space-y-8 relative z-10">
+            <div className="max-w-7xl mx-auto">
+              <PricingPage />
+            </div>
           </div>
         );
       case "docs":
@@ -123,7 +118,6 @@ console.log(result);
       <motion.div
         className="h-full w-full relative"
         style={{
-          skewY,
           transformStyle: "preserve-3d",
           transformOrigin: "right top",
         }}
@@ -142,6 +136,7 @@ console.log(result);
               {[
                 { name: "Home", section: "home" },
                 { name: "Features", section: "features" },
+                { name: "Pricing", section: "pricing" },
                 { name: "Docs", section: "docs" },
               ].map((item) => (
                 <button
@@ -198,7 +193,7 @@ console.log(result);
         </nav>
 
         {/* Main Content */}
-        <main className="h-screen w-full flex items-center justify-center px-4 sm:px-6">
+        <main className="min-h-screen w-full flex items-center justify-center px-4 sm:px-6 pt-24">
           <div className="max-w-7xl mx-auto w-full">{renderContent()}</div>
         </main>
       </motion.div>
