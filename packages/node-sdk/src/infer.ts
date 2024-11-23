@@ -1,4 +1,4 @@
-import { type InferConfig, type ZeroShotResponse, type ZeroShotOptions } from './types.js';
+import { ZeroShotRequest, type InferConfig, type ZeroShotResponse } from './types.js';
 import { InferError, UnauthorizedError, RateLimitError } from './error.js';
 
 class Infer {
@@ -37,9 +37,7 @@ class Infer {
   get zeroShot() {
     return {
       classify: async (
-        text: string,
-        labels: string[],
-        options: ZeroShotOptions = {}
+        request: ZeroShotRequest
       ): Promise<ZeroShotResponse> => {
         const response = await fetch(`${this.baseUrl}`, {
           method: 'POST',
@@ -48,10 +46,9 @@ class Infer {
             'Authorization': `Bearer ${this.apiKey}`,
           },
           body: JSON.stringify({
-            inputs: text,
+            inputs: request.text,
             parameters: {
-              candidate_labels: labels.join(', '),
-              ...options
+              candidate_labels: request.labels.join(', '),
             },
           }),
         });

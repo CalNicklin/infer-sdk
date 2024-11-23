@@ -19,7 +19,7 @@ export default function HomePage() {
 
   return (
     <motion.div
-      className="text-center space-y-8 relative z-10 max-w-2xl mx-auto"
+      className="text-center space-y-8 relative z-10 max-w-2xl mx-auto justify-start"
       initial="hidden"
       animate="visible"
       variants={fadeInVariants}

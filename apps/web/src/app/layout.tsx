@@ -35,7 +35,7 @@ export default function RootLayout({
           className={`${geistSans.variable} ${geistMono.variable} bg-black min-h-screen`}
         >
           {/* Background container */}
-          <div className="fixed inset-0">
+          <div className="fixed inset-0 z-0">
             {/* Prism Effect */}
             <div className="absolute inset-0 opacity-50 pointer-events-none">
               <div className="absolute inset-0 bg-gradient-to-br from-purple-500/30 via-transparent to-blue-500/30" />
@@ -45,7 +45,7 @@ export default function RootLayout({
           </div>
 
           <Nav />
-          <main className="mt-[72px] px-4 sm:px-6 md:px-8 max-w-7xl mx-auto w-full">
+          <main className="mt-[72px] px-4 sm:px-6 md:px-8 max-w-4xl mx-auto w-full z-10">
             {children}
           </main>
         </body>

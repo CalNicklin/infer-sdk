@@ -1,26 +1,16 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import PricingPage from "./pricing/page";
 import HomePage from "./home/page";
 import FeaturesPage from "./features/page";
+import DocsPage from "./docs/page";
 import { usePathname } from "next/navigation";
 
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
-
-  const springTransition = {
-    type: "spring",
-    stiffness: 300,
-    damping: 30,
-  };
-
-  const fadeInVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1 },
-  };
 
   const activeSection = pathname === "/" ? "home" : pathname.slice(1);
 
@@ -37,24 +27,17 @@ export default function Home() {
       case "home":
         content = <HomePage />;
         break;
+      case "docs":
+        content = <DocsPage />;
+        break;
       default:
         return null;
     }
 
     return (
-      <motion.div
-        className="text-center space-y-8 relative z-10"
-        initial="hidden"
-        animate="visible"
-        variants={fadeInVariants}
-        transition={springTransition}
-      >
-        <div
-          className={`mx-auto ${activeSection !== "home" ? "max-w-7xl" : ""}`}
-        >
-          {content}
-        </div>
-      </motion.div>
+      <div className={`mx-auto ${activeSection !== "home" ? "max-w-7xl" : ""}`}>
+        {content}
+      </div>
     );
   };
 

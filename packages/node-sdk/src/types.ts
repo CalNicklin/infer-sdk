@@ -3,6 +3,11 @@ export interface InferConfig {
   baseUrl?: string;
 }
 
+export interface ZeroShotRequest {
+  text: string;
+  labels: string[];
+}
+
 export interface ZeroShotResponse {
   labels: string[];
   scores: number[];
@@ -12,12 +17,8 @@ export interface ZeroShotResponse {
   };
 }
 
-export interface ZeroShotOptions {
-  multiLabel?: boolean;
-}
-
 // Error types
-export type ErrorCode = 
+export type ErrorCode =
   | 'unauthorized'
   | 'rate_limited'
   | 'invalid_request'

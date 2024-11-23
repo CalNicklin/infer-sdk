@@ -1,27 +1,27 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+
+const createParticles = () =>
+  Array.from({ length: 40 }).map(() => ({
+    left: `${Math.random() * 100}%`,
+    top: `${Math.random() * 100}%`,
+    size: Math.random() * 8 + 2,
+    delay: Math.random() * 2,
+    color: `hsl(${Math.random() * 60 + 220}, 70%, 50%)`,
+  }));
 
 export function BackgroundParticles() {
-  const createParticles = useCallback(() => 
-    Array.from({ length: 40 }).map(() => ({
-      left: `${Math.random() * 100}%`,
-      top: `${Math.random() * 100}%`,
-      size: Math.random() * 8 + 2,
-      delay: Math.random() * 2,
-      color: `hsl(${Math.random() * 60 + 220}, 70%, 50%)`,
-    })), []
-  );
-
   const [particles] = useState(createParticles);
   const [activeConnections, setActiveConnections] = useState<number[]>([]);
 
   useEffect(() => {
     const interval = setInterval(() => {
       const totalPossibleConnections = particles.length * 2;
-      const newActive = Array.from({ length: 6 })
-        .map(() => Math.floor(Math.random() * totalPossibleConnections));
+      const newActive = Array.from({ length: 5 }).map(() =>
+        Math.floor(Math.random() * totalPossibleConnections)
+      );
       setActiveConnections(newActive);
     }, 2000);
 
@@ -45,7 +45,7 @@ export function BackgroundParticles() {
             </feMerge>
           </filter>
         </defs>
-        
+
         {particles.map((particle, i) =>
           particles.slice(i + 1, i + 3).map((targetParticle, j) => {
             const connectionId = i * 2 + j;
@@ -62,7 +62,7 @@ export function BackgroundParticles() {
                   stroke="rgba(100,200,255,0.05)"
                   strokeWidth="0.5"
                 />
-                
+
                 {/* Animated connection */}
                 {isActive && (
                   <>
@@ -78,24 +78,6 @@ export function BackgroundParticles() {
                       animate={{
                         pathLength: [0, 1],
                         opacity: [0, 0.3, 0.3, 0],
-                      }}
-                      transition={{
-                        duration: 2,
-                        times: [0, 0.5, 0.8, 1],
-                        ease: "easeInOut",
-                      }}
-                    />
-                    <motion.line
-                      x1={particle.left}
-                      y1={particle.top}
-                      x2={targetParticle.left}
-                      y2={targetParticle.top}
-                      stroke="url(#lineGradient)"
-                      strokeWidth="0.5"
-                      initial={{ pathLength: 0, opacity: 0 }}
-                      animate={{
-                        pathLength: [0, 1],
-                        opacity: [0, 0.8, 0.8, 0],
                       }}
                       transition={{
                         duration: 2,

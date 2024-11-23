@@ -29,3 +29,23 @@ export class RateLimitError extends InferError {
     });
   }
 }
+
+export class ModelError extends InferError {
+  constructor(message: string = 'Model inference failed') {
+    super({
+      code: 'model_error',
+      message,
+      status: 502
+    });
+  }
+}
+
+export class ServerError extends InferError {
+  constructor(message: string = 'Internal server error') {
+    super({
+      code: 'server_error',
+      message,
+      status: 500
+    });
+  }
+}

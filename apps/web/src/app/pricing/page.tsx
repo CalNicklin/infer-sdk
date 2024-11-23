@@ -20,18 +20,18 @@ export default function PricingPage() {
   const springTransition = {
     type: "spring",
     stiffness: 300,
-    damping: 30
+    damping: 30,
   };
 
   const fadeInVariants = {
     hidden: { opacity: 0 },
-    visible: { opacity: 1 }
+    visible: { opacity: 1 },
   };
 
   return (
     <AnimatePresence>
       <motion.div
-        className="min-h-screen bg-transparent text-white font-light p-4 sm:p-8 flex flex-col justify-start"
+        className="min-h-screen bg-transparent text-white font-light flex flex-col justify-center"
         initial="hidden"
         animate="visible"
         variants={fadeInVariants}

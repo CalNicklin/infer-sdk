@@ -10,13 +10,23 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Menu } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export function Nav() {
   const { isSignedIn } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
   const activeSection = pathname === "/" ? "home" : pathname.slice(1);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const menuItems = [
     { name: "Home", section: "/" },
@@ -26,14 +36,26 @@ export function Nav() {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 w-full px-4 sm:px-6 py-4 backdrop-blur-sm z-[100]">
-      <div className="max-w-7xl mx-auto flex justify-between items-center">
-        <Link
-          href="/"
-          className="text-2xl font-medium tracking-tight text-white/90"
+    <nav
+      className={`fixed top-0 left-0 right-0 w-full z-[100] transition-all duration-300 ${
+        isScrolled
+          ? "backdrop-blur-sm border-b border-white/10"
+          : "bg-transparent"
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
+        <div
+          className={`transition-all duration-300 ${
+            isScrolled ? "scale-90" : "scale-100"
+          }`}
         >
-          infer
-        </Link>
+          <Link
+            href="/"
+            className="text-2xl font-medium tracking-tight text-white/90"
+          >
+            infer
+          </Link>
+        </div>
 
         <div className="hidden sm:flex items-center gap-4">
           {menuItems.map((item) => (
