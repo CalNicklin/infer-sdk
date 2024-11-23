@@ -21,10 +21,10 @@ describe('Infer SDK', () => {
         json: () => Promise.resolve(mockResponse)
       });
 
-      const result = await infer.zeroShot.classify(
-        'I love this!',
-        ['positive', 'negative']
-      );
+      const result = await infer.zeroShot.classify({
+        text: 'I love this!',
+        labels: ['positive', 'negative']
+      });
 
       expect(result).toEqual(mockResponse);
     });
@@ -36,7 +36,10 @@ describe('Infer SDK', () => {
       });
 
       await expect(
-        infer.zeroShot.classify('test', ['positive'])
+        infer.zeroShot.classify({
+          text: 'test',
+          labels: ['positive']
+        })
       ).rejects.toThrow(UnauthorizedError);
     });
   });
