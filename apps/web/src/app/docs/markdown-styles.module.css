@@ -1,37 +1,37 @@
 .markdown {
-  @apply text-white;
+  @apply text-white/80;
 }
 
 .markdown h1 {
-  @apply scroll-m-20 text-4xl font-bold tracking-tight lg:text-5xl mb-8 text-white;
+  @apply scroll-m-20 text-4xl font-bold tracking-tight lg:text-5xl mb-8 text-white/90;
 }
 
 .markdown h2 {
-  @apply scroll-m-20 border-b border-slate-700 pb-2 text-3xl font-semibold tracking-tight first:mt-0 mt-16 mb-4 text-white;
+  @apply scroll-m-20 border-b border-slate-700 pb-2 text-3xl font-semibold tracking-tight first:mt-0 mt-16 mb-4 text-white/90;
 }
 
 .markdown h3 {
-  @apply scroll-m-20 text-2xl font-semibold tracking-tight mt-8 mb-4 text-white;
+  @apply scroll-m-20 text-2xl font-semibold tracking-tight mt-8 mb-4 text-white/90;
 }
 
 .markdown h4 {
-  @apply scroll-m-20 text-xl font-semibold tracking-tight mt-6 mb-3 text-white;
+  @apply scroll-m-20 text-xl font-semibold tracking-tight mt-6 mb-3 text-white/90;
 }
 
 .markdown p {
-  @apply leading-7 [&:not(:first-child)]:mt-6 text-white;
+  @apply leading-7 [&:not(:first-child)]:mt-6 text-white/80;
 }
 
 .markdown ul {
-  @apply my-6 ml-6 list-disc [&>li]:mt-2 text-white;
+  @apply my-6 ml-6 list-disc [&>li]:mt-2 text-white/80;
 }
 
 .markdown ol {
-  @apply my-6 ml-6 list-decimal [&>li]:mt-2 text-white;
+  @apply my-6 ml-6 list-decimal [&>li]:mt-2 text-white/80;
 }
 
 .markdown code {
-  @apply relative rounded bg-slate-800 py-[0.2rem] px-[0.3rem] font-mono text-sm font-semibold text-white;
+  @apply relative rounded bg-slate-800 py-[0.2rem] px-[0.3rem] font-mono text-sm font-semibold text-white/80;
 }
 
 .markdown pre {
@@ -45,16 +45,16 @@
 }
 
 .markdown blockquote {
-  @apply mt-6 border-l-2 border-slate-500 pl-6 italic text-white;
+  @apply mt-6 border-l-2 border-slate-500 pl-6 italic text-white/80;
 }
 
 .markdown a {
-  @apply font-medium text-white underline underline-offset-4;
+  @apply font-medium text-white/80 underline underline-offset-4;
 }
 
 /* Tables */
 .markdown table {
-  @apply w-full my-6 text-sm text-white;
+  @apply w-full my-6 text-sm text-white/80;
 }
 
 .markdown thead {
@@ -62,7 +62,7 @@
 }
 
 .markdown th {
-  @apply text-left font-medium p-4 text-white;
+  @apply text-left font-medium p-4 text-white/90;
 }
 
 .markdown tbody tr {
@@ -70,12 +70,12 @@
 }
 
 .markdown td {
-  @apply p-4 text-white;
+  @apply p-4 text-white/80;
 }
 
 /* Inline elements */
 .markdown strong {
-  @apply font-semibold text-white;
+  @apply font-semibold text-white/80;
 }
 
 /* Code blocks with syntax highlighting */

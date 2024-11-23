@@ -20,3 +20,11 @@ export async function getDocsBySlug(slug: string) {
 
   return { ...data, content } as { content: string };
 }
+
+export async function formatDate(date: Date): Promise<string> {
+  return new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  }).format(date);
+}

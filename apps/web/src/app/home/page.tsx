@@ -41,10 +41,10 @@ import Infer from 'infer-sdk';
 
 const infer = new Infer({ apiKey: 'your-api-key' });
 
-const result = await infer.zeroShot.classify(
-  "I love this product!",
-  ['positive', 'negative']
-);
+const result = await infer.zeroShot.classify({
+  text: "I love this product!",
+  labels: ["positive", "negative"],
+});
 
 console.log(result);
 `}</code>
@@ -52,7 +52,7 @@ console.log(result);
       </motion.div>
       <motion.div variants={fadeInVariants}>
         <Button
-          className="bg-white/10 text-white/90 hover:bg-white/20 transition-colors font-normal"
+          className="bg-white/10 text-white/80 hover:bg-white/20 transition-colors font-normal"
           onClick={() => router.push("/docs")}
         >
           Get started

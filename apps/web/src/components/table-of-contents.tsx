@@ -31,7 +31,7 @@ export default function TableOfContents({ items }: { items: TOCItem[] }) {
 
   return (
     <nav className="text-sm">
-      <p className="font-medium mb-4 text-white/90">On this page</p>
+      <p className="font-medium mb-4 text-white/80">On this page</p>
       <ul className="space-y-2.5">
         {items.map((item) => (
           <li
