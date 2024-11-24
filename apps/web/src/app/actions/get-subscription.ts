@@ -11,7 +11,6 @@ export async function getSubscription() {
       throw new Error("Unauthorized");
     }
 
-    // Find customer by userId in metadata
     const customers = await stripe.customers.search({
       query: `metadata['userId']:'${userId}'`,
     });
@@ -21,10 +20,9 @@ export async function getSubscription() {
     }
 
     const customer = customers.data[0];
-
-    // Get active subscription
     const subscriptions = await stripe.subscriptions.list({
       customer: customer.id,
+      expand: ['data.items.data.price'],
     });
 
     if (!subscriptions.data.length) {
@@ -34,13 +32,41 @@ export async function getSubscription() {
     const subscription = subscriptions.data[0];
     const invoice = subscription.latest_invoice as Stripe.Invoice;
 
+    // Get the subscription item and its price
+    const subscriptionItem = subscription.items.data[0];
+    const meterId = subscriptionItem.price.recurring?.meter;
+
+    let currentUsage = 0;
+    if (meterId) {
+      const now = Math.floor(Date.now() / 1000);
+      const startOfPeriod = subscription.current_period_start;
+
+      try {
+        const summary = await stripe.billing.meters.listEventSummaries(meterId, {
+          customer: customer.id,
+          start_time: startOfPeriod,
+          end_time: now,
+        });
+
+        // Check if we have any data
+        if (summary.data.length > 0) {
+          currentUsage = summary.data[0].aggregated_value;
+        }
+      } catch (error) {
+        console.error('Error fetching meter summary:', error);
+        currentUsage = 0;
+      }
+    }
+
+    // Add quantity from subscription item as fallback
+    const subscriptionQuantity = subscriptionItem.quantity || 0;
+
     return {
       plan: {
-        name: subscription.items.data[0].plan.nickname || "Pro",
-        amount: subscription.items.data[0].plan.amount
-          ? subscription.items.data[0].plan.amount / 100
-          : "Free",
-        interval: subscription.items.data[0].plan.interval || "month",
+        name: subscriptionItem.price.nickname || "Pro",
+        amount: subscriptionItem.price.unit_amount_decimal
+          ? parseFloat(subscriptionItem.price.unit_amount_decimal)
+          : 0,
       },
       currentPeriod: {
         start: new Date(subscription.current_period_start * 1000),
@@ -52,6 +78,8 @@ export async function getSubscription() {
       },
       status: subscription.status,
       id: subscription.id,
+      items: subscription.items,
+      currentUsage: currentUsage || subscriptionQuantity, // Use quantity as fallback
     };
   } catch (error) {
     console.error("Error fetching subscription:", error);
