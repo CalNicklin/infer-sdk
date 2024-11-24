@@ -17,7 +17,6 @@ const EnvSchema = z.object({
   UNKEY_API_ID: z.string(),
   STRIPE_SECRET_KEY: z.string(),
   STRIPE_PRICE_ID: z.string(),
-  INFER_API_KEY: z.string(),
 })
 
 export type Env = z.infer<typeof EnvSchema>;
