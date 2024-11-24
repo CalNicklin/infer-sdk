@@ -25,7 +25,7 @@ export default async function Billing() {
   // Calculate current period usage with safe number conversion
   const currentPeriodRequests =
     usage?.reduce((acc, day) => acc + safeNumber(day.requests), 0) ?? 0;
-  const costPerToken = 0.0001; // $0.0001 per token
+  const costPerToken = 0.00001; // $0.00001 per token
   const currentPeriodTokens = safeNumber(
     safeNumber(subscription?.currentBill?.amount ?? 0) / costPerToken
   );
