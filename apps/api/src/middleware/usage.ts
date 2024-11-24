@@ -41,7 +41,7 @@ export async function usageMiddleware(c: Context, next: () => Promise<void>) {
 
     // Record total usage
     await stripe.billing.meterEvents.create({
-      event_name: 'infer-api',
+      event_name: 'infer-paid-tier',
       payload: {
         stripe_customer_id: stripeCustomerId,
         value: totalTokens,

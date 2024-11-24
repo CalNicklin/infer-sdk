@@ -42,17 +42,28 @@ export default async function Billing() {
     return (
       <Card className="bg-white/5 border border-white/10 backdrop-blur-sm">
         <CardHeader>
-          <CardTitle className="text-white/80">Billing Information</CardTitle>
+          <CardTitle className="text-white/80">Subscription Status</CardTitle>
           <CardDescription className="text-white/60">
-            Start your subscription to access the API
+            Your subscription is being processed
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <p className="text-white/60">No active subscription found.</p>
+        <CardContent className="space-y-4">
+          <div className="flex items-center p-4 bg-white/5 rounded-md border border-white/10">
+            <CreditCard className="h-6 w-6 mr-2 text-white/70" />
+            <div>
+              <p className="text-white/80">Subscription Pending</p>
+              <p className="text-sm text-white/60">
+                Your subscription is being set up. This may take a few moments.
+              </p>
+            </div>
+          </div>
         </CardContent>
         <CardFooter>
-          <Button className="bg-white/10 text-white/80 hover:bg-white/20">
-            Subscribe Now
+          <Button 
+            className="bg-white/10 text-white/80 hover:bg-white/20"
+            onClick={() => window.location.reload()}
+          >
+            Refresh Status
           </Button>
         </CardFooter>
       </Card>
