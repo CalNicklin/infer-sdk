@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "../ui/button";
-import { CreditCard, Activity, PoundSterling, Hash } from "lucide-react";
+import { CreditCard, Activity, PoundSterling, Hash, Gift } from "lucide-react";
 import { formatDate } from "@/lib/server/utils";
 import { CancelSubscriptionButton } from "./cancel-subscription-button";
 
@@ -24,11 +24,15 @@ export default async function Billing() {
 
   const currentPeriodRequests =
     usage?.reduce((acc, day) => acc + safeNumber(day.requests), 0) ?? 0;
-  const costPerToken = 0.00001; // £0.00001 per token
 
   const currentPeriodTokens = safeNumber(subscription?.currentUsage ?? 0);
-
-  const currentCost = (currentPeriodTokens * costPerToken).toFixed(3);
+  const freeUnitsRemaining = subscription?.freeUnitsRemaining ?? 0;
+  const FREE_TIER_LIMIT = subscription?.plan?.freeTierLimit ?? 0;
+  const COST_PER_TOKEN = subscription?.plan?.costPerToken ?? 0;
+  
+  // Calculate billable tokens (only tokens above free tier)
+  const billableTokens = Math.max(0, currentPeriodTokens - FREE_TIER_LIMIT);
+  const currentCost = (billableTokens * COST_PER_TOKEN).toFixed(3);
   const basePlanAmount = safeNumber(subscription?.plan?.amount ?? 0).toFixed(3);
   const totalBill = (
     safeNumber(basePlanAmount) / 100 +
@@ -86,6 +90,32 @@ export default async function Billing() {
           </div>
         </div>
 
+        {/* Free Tier Status */}
+        <div className="p-4 bg-white/5 rounded-md border border-white/10">
+          <div className="flex items-center mb-2">
+            <Gift className="h-5 w-5 mr-2 text-white/70" />
+            <h3 className="font-semibold text-white/80">Free Tier Status</h3>
+          </div>
+          <div className="space-y-2">
+            <p className="text-sm text-white/60">
+              {freeUnitsRemaining > 0 
+                ? `${freeUnitsRemaining.toLocaleString()} free tokens remaining`
+                : 'Free tier limit reached'}
+            </p>
+            <div className="w-full bg-white/10 rounded-full h-2">
+              <div 
+                className="bg-white/40 h-2 rounded-full transition-all"
+                style={{ 
+                  width: `${Math.min(100, (currentPeriodTokens / FREE_TIER_LIMIT) * 100)}%`,
+                }}
+              />
+            </div>
+            <p className="text-xs text-white/40">
+              {currentPeriodTokens.toLocaleString()} / {FREE_TIER_LIMIT.toLocaleString()} tokens used
+            </p>
+          </div>
+        </div>
+
         {/* Current Period Usage */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="p-4 bg-white/5 rounded-md border border-white/10">
@@ -102,13 +132,13 @@ export default async function Billing() {
           <div className="p-4 bg-white/5 rounded-md border border-white/10">
             <div className="flex items-center mb-2">
               <Hash className="h-5 w-5 mr-2 text-white/70" />
-              <h3 className="font-semibold text-white/80">Tokens Used</h3>
+              <h3 className="font-semibold text-white/80">Billable Tokens</h3>
             </div>
             <p className="text-2xl font-bold text-white/80">
-              {currentPeriodTokens.toLocaleString()}
+              {billableTokens.toLocaleString()}
             </p>
             <p className="text-sm text-white/60">
-              £{costPerToken.toFixed(5)} per token
+              £{COST_PER_TOKEN.toFixed(5)} per token
             </p>
           </div>
 
@@ -118,7 +148,7 @@ export default async function Billing() {
               <h3 className="font-semibold text-white/80">Usage Cost</h3>
             </div>
             <p className="text-2xl font-bold text-white/80">£{currentCost}</p>
-            <p className="text-sm text-white/60">Based on token usage</p>
+            <p className="text-sm text-white/60">Based on billable tokens</p>
           </div>
         </div>
 
@@ -128,15 +158,18 @@ export default async function Billing() {
           <p className="text-2xl font-bold text-white/80">£{totalBill}</p>
           <div className="mt-2 space-y-1">
             <div className="flex justify-between text-sm text-white/60">
-              <span>
-                Token Usage ({currentPeriodTokens.toLocaleString()} tokens)
-              </span>
-              <span>£{currentCost}</span>
+              <span>Free Tier Usage</span>
+              <span>{Math.min(currentPeriodTokens, FREE_TIER_LIMIT).toLocaleString()} tokens</span>
             </div>
+            {billableTokens > 0 && (
+              <div className="flex justify-between text-sm text-white/60">
+                <span>Billable Usage</span>
+                <span>{billableTokens.toLocaleString()} tokens (£{currentCost})</span>
+              </div>
+            )}
           </div>
           <p className="text-sm text-white/60 mt-4">
-            Next billing date:{" "}
-            {formatDate(subscription.currentPeriod?.end ?? new Date())}
+            Next billing date: {formatDate(subscription.currentPeriod?.end ?? new Date())}
           </p>
         </div>
       </CardContent>
