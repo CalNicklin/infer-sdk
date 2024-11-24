@@ -5,10 +5,10 @@ import { env } from '../env'
 const ratelimit = new Ratelimit({
   rootKey: env.UNKEY_TOKEN!,
   namespace: "api-requests",
-  limit: 150, // Adjust this number based on your needs
-  duration: "1m", // 1 minute window
+  limit: 150,
+  duration: "1m",
   timeout: {
-    ms: 3000, // 3 second timeout
+    ms: 3000,
     fallback: (identifier) => ({
       success: false,
       limit: 150,
