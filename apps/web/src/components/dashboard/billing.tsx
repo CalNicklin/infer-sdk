@@ -11,7 +11,7 @@ import {
 import { Button } from "../ui/button";
 import { CreditCard, Activity, DollarSign, Hash } from "lucide-react";
 import { formatDate } from "@/lib/server/utils";
-import { CancelSubscriptionButton } from "./cancel-subscription-button"
+import { CancelSubscriptionButton } from "./cancel-subscription-button";
 
 // Helper function to safely convert to number
 const safeNumber = (value: string | number): number => {
@@ -59,7 +59,7 @@ export default async function Billing() {
           </div>
         </CardContent>
         <CardFooter>
-          <Button 
+          <Button
             className="bg-white/10 text-white/80 hover:bg-white/20"
             onClick={() => window.location.reload()}
           >
@@ -144,9 +144,6 @@ export default async function Billing() {
         </div>
       </CardContent>
       <CardFooter className="flex gap-2">
-        <Button className="bg-white/10 text-white/80 hover:bg-white/20">
-          Manage Subscription
-        </Button>
         <CancelSubscriptionButton />
       </CardFooter>
     </Card>
