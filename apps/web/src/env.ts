@@ -16,6 +16,7 @@ if (process.env.NODE_ENV !== 'production') {
 const EnvSchema = z.object({
   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string(),
   CLERK_SECRET_KEY: z.string(),
+  NEXT_PUBLIC_APP_URL: z.string(),
   UNKEY_TOKEN: z.string(),
   UNKEY_API_ID: z.string(),
   STRIPE_SECRET_KEY: z.string(),

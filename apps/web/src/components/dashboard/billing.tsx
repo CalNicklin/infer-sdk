@@ -8,10 +8,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "../ui/button";
 import { CreditCard, Activity, PoundSterling, Hash, Gift } from "lucide-react";
 import { formatDate } from "@/lib/server/utils";
 import { CancelSubscriptionButton } from "./cancel-subscription-button";
+import { CreateSubscriptionButton } from "./create-subscription-button";
 
 const safeNumber = (value: string | number): number => {
   const num = Number(value);
@@ -29,7 +29,7 @@ export default async function Billing() {
   const freeUnitsRemaining = subscription?.freeUnitsRemaining ?? 0;
   const FREE_TIER_LIMIT = subscription?.plan?.freeTierLimit ?? 0;
   const COST_PER_TOKEN = subscription?.plan?.costPerToken ?? 0;
-  
+
   // Calculate billable tokens (only tokens above free tier)
   const billableTokens = Math.max(0, currentPeriodTokens - FREE_TIER_LIMIT);
   const currentCost = (billableTokens * COST_PER_TOKEN).toFixed(3);
@@ -43,29 +43,35 @@ export default async function Billing() {
     return (
       <Card className="bg-white/5 border border-white/10 backdrop-blur-sm">
         <CardHeader>
-          <CardTitle className="text-white/80">Subscription Status</CardTitle>
+          <CardTitle className="text-white/80">Get Started with Infer</CardTitle>
           <CardDescription className="text-white/60">
-            Your subscription is being processed
+            Subscribe to start using our API services
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center p-4 bg-white/5 rounded-md border border-white/10">
             <CreditCard className="h-6 w-6 mr-2 text-white/70" />
             <div>
-              <p className="text-white/80">Subscription Pending</p>
+              <p className="text-white/80">No Active Subscription</p>
               <p className="text-sm text-white/60">
-                Your subscription is being set up. This may take a few moments.
+                Subscribe to get access to our ML inference API with 10,000 free tokens per month
               </p>
             </div>
           </div>
+          
+          {/* Pricing Overview */}
+          <div className="p-4 bg-white/5 rounded-md border border-white/10">
+            <h3 className="font-semibold mb-2 text-white/80">Pricing</h3>
+            <ul className="space-y-2 text-sm text-white/60">
+              <li>• 10,000 free tokens monthly</li>
+              <li>• £0.001 per 1,000 tokens after free tier</li>
+              <li>• Pay only for what you use</li>
+              <li>• Cancel anytime</li>
+            </ul>
+          </div>
         </CardContent>
         <CardFooter>
-          <Button
-            className="bg-white/10 text-white/80 hover:bg-white/20"
-            onClick={() => window.location.reload()}
-          >
-            Refresh Status
-          </Button>
+          <CreateSubscriptionButton />
         </CardFooter>
       </Card>
     );
@@ -76,7 +82,7 @@ export default async function Billing() {
       <CardHeader>
         <CardTitle className="text-white/80">Billing Information</CardTitle>
         <CardDescription className="text-white/60">
-          Manage your billing and view current charges
+          Manage your subscription and view current charges
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -98,20 +104,24 @@ export default async function Billing() {
           </div>
           <div className="space-y-2">
             <p className="text-sm text-white/60">
-              {freeUnitsRemaining > 0 
+              {freeUnitsRemaining > 0
                 ? `${freeUnitsRemaining.toLocaleString()} free tokens remaining`
-                : 'Free tier limit reached'}
+                : "Free tier limit reached"}
             </p>
             <div className="w-full bg-white/10 rounded-full h-2">
-              <div 
+              <div
                 className="bg-white/40 h-2 rounded-full transition-all"
-                style={{ 
-                  width: `${Math.min(100, (currentPeriodTokens / FREE_TIER_LIMIT) * 100)}%`,
+                style={{
+                  width: `${Math.min(
+                    100,
+                    (currentPeriodTokens / FREE_TIER_LIMIT) * 100
+                  )}%`,
                 }}
               />
             </div>
             <p className="text-xs text-white/40">
-              {currentPeriodTokens.toLocaleString()} / {FREE_TIER_LIMIT.toLocaleString()} tokens used
+              {currentPeriodTokens.toLocaleString()} /{" "}
+              {FREE_TIER_LIMIT.toLocaleString()} tokens used
             </p>
           </div>
         </div>
@@ -159,22 +169,35 @@ export default async function Billing() {
           <div className="mt-2 space-y-1">
             <div className="flex justify-between text-sm text-white/60">
               <span>Free Tier Usage</span>
-              <span>{Math.min(currentPeriodTokens, FREE_TIER_LIMIT).toLocaleString()} tokens</span>
+              <span>
+                {Math.min(
+                  currentPeriodTokens,
+                  FREE_TIER_LIMIT
+                ).toLocaleString()}{" "}
+                tokens
+              </span>
             </div>
             {billableTokens > 0 && (
               <div className="flex justify-between text-sm text-white/60">
                 <span>Billable Usage</span>
-                <span>{billableTokens.toLocaleString()} tokens (£{currentCost})</span>
+                <span>
+                  {billableTokens.toLocaleString()} tokens (£{currentCost})
+                </span>
               </div>
             )}
           </div>
           <p className="text-sm text-white/60 mt-4">
-            Next billing date: {formatDate(subscription.currentPeriod?.end ?? new Date())}
+            Next billing date:{" "}
+            {formatDate(subscription.currentPeriod?.end ?? new Date())}
           </p>
         </div>
       </CardContent>
       <CardFooter className="flex gap-2">
-        <CancelSubscriptionButton />
+        {subscription ? (
+          <CancelSubscriptionButton />
+        ) : (
+          <CreateSubscriptionButton />
+        )}
       </CardFooter>
     </Card>
   );
