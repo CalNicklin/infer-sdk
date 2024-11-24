@@ -51,6 +51,7 @@ export async function getSubscription() {
         date: new Date(invoice.created * 1000),
       },
       status: subscription.status,
+      id: subscription.id,
     };
   } catch (error) {
     console.error("Error fetching subscription:", error);
