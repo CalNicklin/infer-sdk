@@ -1,19 +1,42 @@
 {
     "$schema": "https://turbo.build/schema.json",
-    "globalDependencies": ["**/.env.*local"],
+    "globalDependencies": ["**/.env.*local", ".env"],
     "tasks": {
-      "build": {
-        "dependsOn": ["^build"],
-        "outputs": ["dist/**", ".next/**", "build/**"]
-      },
-      "api#build": {
-        "dependsOn": [],
-        "outputs": ["dist/**"]
-      },
-      "lint": {},
-      "dev": {
-        "cache": false,
-        "persistent": true
-      }
+        "build": {
+            "dependsOn": ["^build"],
+            "outputs": ["dist/**", ".next/**", "build/**"]
+        },
+        "web#build": {
+            "dependsOn": ["^build"],
+            "env": [
+                "CLERK_SECRET_KEY",
+                "UNKEY_TOKEN",
+                "UNKEY_API_ID",
+                "STRIPE_SECRET_KEY",
+                "STRIPE_PRICE_ID"
+            ],
+            "outputs": [".next/**", "!.next/cache/**"]
+        },
+        "api#build": {
+            "dependsOn": [],
+            "env": [
+                "NODE_ENV",
+                "PORT",
+                "LOG_LEVEL",
+                "UNKEY_TOKEN",
+                "STRIPE_SECRET_KEY",
+                "STRIPE_PAID_TIER_METER_ID",
+                "STRIPE_SUBSCRIPTION_ITEM_ID",
+                "RUNPOD_ENDPOINT_ID",
+                "RUNPOD_API_KEY",
+                "BART_WORKER_URL"
+            ],
+            "outputs": ["dist/**"]
+        },
+        "lint": {},
+        "dev": {
+            "cache": false,
+            "persistent": true
+        }
     }
 }
