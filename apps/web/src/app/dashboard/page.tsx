@@ -3,8 +3,12 @@ import Overview from "@/components/dashboard/overview";
 import ApiKey from "@/components/dashboard/api-key";
 import Billing from "@/components/dashboard/billing";
 import Account from "@/components/dashboard/account";
+import { getSubscription } from "@/app/actions/get-subscription";
 
-export default function Dashboard() {
+export default async function Dashboard() {
+  const subscription = await getSubscription();
+  const hasActiveSubscription = subscription?.status === 'active';
+
   return (
     <div className="min-h-screen bg-black text-white/80 font-sans">
       <main className="py-8 pt-0 px-4 sm:px-6 max-w-7xl mx-auto">
@@ -41,7 +45,7 @@ export default function Dashboard() {
           </TabsContent>
 
           <TabsContent value="api-key">
-            <ApiKey />
+            <ApiKey hasActiveSubscription={hasActiveSubscription} />
           </TabsContent>
 
           <TabsContent value="billing">

@@ -1,7 +1,7 @@
 "use client";
 
 import { generateApiKey } from "@/app/actions/generate-key";
-import { Copy } from "lucide-react";
+import { Copy, AlertCircle } from "lucide-react";
 import { useState } from "react";
 import { useFormStatus } from "react-dom";
 import {
@@ -12,6 +12,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "../ui/button";
+import { Alert, AlertDescription } from "../ui/alert";
+
+interface ApiKeyProps {
+  hasActiveSubscription?: boolean;
+}
 
 function GenerateButton() {
   const { pending } = useFormStatus();
@@ -27,9 +32,10 @@ function GenerateButton() {
   );
 }
 
-export default function ApiKey() {
+export default function ApiKey({ hasActiveSubscription = false }: ApiKeyProps) {
   const [apiKey, setApiKey] = useState<string>();
   const [copied, setCopied] = useState(false);
+  const [error, setError] = useState<string>();
 
   const handleGenerate = async () => {
     try {
@@ -39,6 +45,7 @@ export default function ApiKey() {
       }
     } catch (error) {
       console.error("Error generating key:", error);
+      setError("Failed to generate API key. Please try again.");
     }
   };
 
@@ -47,6 +54,29 @@ export default function ApiKey() {
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+
+  if (!hasActiveSubscription) {
+    return (
+      <Card className="bg-white/5 border border-white/10 backdrop-blur-sm">
+        <CardHeader>
+          <CardTitle className="text-white/80">Your API Key</CardTitle>
+          <CardDescription className="text-white/60">
+            Subscribe to generate an API key
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <Alert className="bg-white/5 border-white/10">
+            <AlertCircle className="h-4 w-4 text-white/70" />
+            <AlertDescription className="text-white/60">
+              You need an active subscription to generate API keys. Subscribe to
+              get started with 10,000 free tokens per month. Head to
+              &apos;Billing&apos; to subscribe.
+            </AlertDescription>
+          </Alert>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card className="bg-white/5 border border-white/10 backdrop-blur-sm">
@@ -57,6 +87,15 @@ export default function ApiKey() {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
+        {error && (
+          <Alert className="bg-red-500/10 border-red-500/20">
+            <AlertCircle className="h-4 w-4 text-red-500" />
+            <AlertDescription className="text-red-500">
+              {error}
+            </AlertDescription>
+          </Alert>
+        )}
+
         {!apiKey ? (
           <form action={handleGenerate}>
             <GenerateButton />
