@@ -30,9 +30,8 @@ export function Nav() {
 
   const menuItems = [
     { name: "Home", section: "/" },
-    { name: "Features", section: "/features" },
-    { name: "Pricing", section: "/pricing" },
     { name: "Docs", section: "/docs" },
+    { name: "Pricing", section: "/pricing" },
   ];
 
   return (
@@ -51,7 +50,7 @@ export function Nav() {
         >
           <Link
             href="/"
-            className="text-2xl font-medium tracking-tight text-white/90"
+            className="text-2xl font-medium tracking-tight text-white/80"
           >
             infer
           </Link>
@@ -83,7 +82,7 @@ export function Nav() {
               <Button
                 asChild
                 variant="ghost"
-                className="text-white/70 hover:text-white/90 transition-colors font-normal"
+                className="text-white/70 hover:text-white/80 transition-colors font-normal"
               >
                 <Link href="/dashboard">Dashboard</Link>
               </Button>
@@ -94,7 +93,7 @@ export function Nav() {
               <SignInButton mode="modal">
                 <Button
                   variant="ghost"
-                  className="text-white/70 hover:text-white/90 font-normal"
+                  className="text-white/70 hover:text-white/80 font-normal"
                 >
                   Sign In
                 </Button>
@@ -102,7 +101,7 @@ export function Nav() {
               <SignUpButton mode="modal">
                 <Button
                   variant="ghost"
-                  className="text-white/70 hover:text-white/90 font-normal"
+                  className="text-white/70 hover:text-white/80 font-normal"
                 >
                   Sign Up
                 </Button>
@@ -117,7 +116,7 @@ export function Nav() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="text-white/90 hover:text-white"
+                className="text-white/80 hover:text-white"
               >
                 <Menu className="h-6 w-6" />
               </Button>
@@ -148,7 +147,7 @@ export function Nav() {
                     <Button
                       asChild
                       variant="ghost"
-                      className="text-white/70 hover:text-white/90 hover:bg-white/5 transition-colors font-normal justify-start"
+                      className="text-white/70 hover:text-white/80 hover:bg-white/5 transition-colors font-normal justify-start"
                     >
                       <Link
                         href="/dashboard"
@@ -167,7 +166,7 @@ export function Nav() {
                       <Button
                         variant="ghost"
                         onClick={() => setIsMenuOpen(false)}
-                        className="text-white/70 hover:text-white/90 hover:bg-white/5 w-full justify-start font-normal"
+                        className="text-white/70 hover:text-white/80 hover:bg-white/5 w-full justify-start font-normal"
                       >
                         Sign In
                       </Button>
@@ -175,7 +174,7 @@ export function Nav() {
                     <SignUpButton mode="modal">
                       <Button
                         variant="ghost"
-                        className="text-white/70 hover:text-white/90 hover:bg-white/5 w-full justify-start font-normal"
+                        className="text-white/70 hover:text-white/80 hover:bg-white/5 w-full justify-start font-normal"
                       >
                         Sign Up
                       </Button>

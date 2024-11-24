@@ -68,7 +68,7 @@ export default function FeaturesPage() {
             className="bg-white/5 p-6 rounded-lg text-left text-white"
             variants={fadeInVariants}
           >
-            <h3 className="text-xl font-semibold mb-2 text-white/90">
+            <h3 className="text-xl font-semibold mb-2 text-white/80">
               {feature.title}
             </h3>
             <p className="text-white/70">{feature.description}</p>

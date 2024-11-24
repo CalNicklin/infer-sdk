@@ -3,9 +3,7 @@ import { Unkey } from '@unkey/api'
 import Stripe from 'stripe'
 import { NextResponse } from 'next/server'
 
-
 export async function POST() {
-  
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
   const unkey = new Unkey({ token: process.env.UNKEY_TOKEN! })
 
@@ -20,24 +18,46 @@ export async function POST() {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // Create Stripe customer
-    const customer = await stripe.customers.create({
-      metadata: {
-        userId
-      },
+    // Check for existing customer
+    const customers = await stripe.customers.list({
       email: user.primaryEmailAddress?.emailAddress,
-      name: user.firstName + ' ' + user.lastName
+      limit: 1,
     })
 
-    // Create subscription
-    const subscription = await stripe.subscriptions.create({
+    let customer
+    if (customers.data.length > 0) {
+      customer = customers.data[0]
+    } else {
+      // Create new Stripe customer if none exists
+      customer = await stripe.customers.create({
+        metadata: {
+          userId
+        },
+        email: user.primaryEmailAddress?.emailAddress,
+        name: user.firstName + ' ' + user.lastName
+      })
+    }
+
+    // Check for existing subscription
+    const subscriptions = await stripe.subscriptions.list({
       customer: customer.id,
-      items: [{
-        price: process.env.STRIPE_PRICE_ID!,
-      }],
-      payment_behavior: 'default_incomplete',
-      expand: ['pending_setup_intent'],
+      limit: 1,
     })
+
+    let subscription
+    if (subscriptions.data.length > 0) {
+      subscription = subscriptions.data[0]
+    } else {
+      // Create new subscription if none exists
+      subscription = await stripe.subscriptions.create({
+        customer: customer.id,
+        items: [{
+          price: process.env.STRIPE_PRICE_ID!,
+        }],
+        payment_behavior: 'default_incomplete',
+        expand: ['pending_setup_intent'],
+      })
+    }
 
     // Generate API key with Unkey
     const { result: key } = await unkey.keys.create({
