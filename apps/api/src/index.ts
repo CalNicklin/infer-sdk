@@ -4,7 +4,7 @@ import { zeroShotHandler } from './handlers/index'
 import { authMiddleware } from './middleware/auth'
 import { usageMiddleware } from './middleware/usage'
 import { pinoLogger } from './middleware/pino-logger'
-
+import { ratelimitMiddleware } from './middleware/rate-limit'
 const app = new Hono()
 
 app.use('*', cors({
@@ -37,6 +37,7 @@ app.get('/health', (c) => {
 })
 app.use('/api/*', authMiddleware)
 app.use('/api/*', usageMiddleware)
+app.use('/api/*', ratelimitMiddleware)
 app.use(pinoLogger());
 
 // Main inference endpoint
