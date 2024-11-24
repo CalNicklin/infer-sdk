@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { generateApiKey } from "@/app/actions/generate-key";
 import { Copy } from "lucide-react";
@@ -14,8 +14,8 @@ import {
 import { Button } from "../ui/button";
 
 function GenerateButton() {
-  const { pending } = useFormStatus()
-  
+  const { pending } = useFormStatus();
+
   return (
     <Button
       type="submit"
@@ -24,26 +24,29 @@ function GenerateButton() {
     >
       {pending ? "Generating..." : "Generate API Key"}
     </Button>
-  )
+  );
 }
 
 export default function ApiKey() {
-  const [apiKey, setApiKey] = useState<string>()
+  const [apiKey, setApiKey] = useState<string>();
+  const [copied, setCopied] = useState(false);
 
   const handleGenerate = async () => {
     try {
-      const result = await generateApiKey()
+      const result = await generateApiKey();
       if (result.key) {
-        setApiKey(result.key)
+        setApiKey(result.key);
       }
     } catch (error) {
-      console.error("Error generating key:", error)
+      console.error("Error generating key:", error);
     }
-  }
+  };
 
   const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text)
-  }
+    navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   return (
     <Card className="bg-white/5 border border-white/10 backdrop-blur-sm">
@@ -65,9 +68,14 @@ export default function ApiKey() {
               variant="ghost"
               size="icon"
               onClick={() => copyToClipboard(apiKey)}
-              className="text-white/70 hover:text-white/80"
+              className="text-white/70 hover:text-white/80 relative"
             >
               <Copy className="h-4 w-4" />
+              {copied && (
+                <span className="absolute -top-8 right-0 text-xs bg-white/10 text-white/80 px-2 py-1 rounded">
+                  Copied!
+                </span>
+              )}
               <span className="sr-only">Copy API key</span>
             </Button>
           </div>
