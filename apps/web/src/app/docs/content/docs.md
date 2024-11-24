@@ -62,20 +62,33 @@ The Infer SDK provides fast, type-safe access to ML inference in serverless envi
 
 ## Getting Started
 
-### 1. Creating an Account
+### 1. Creating an Account & Subscription
 
 1. Click "Sign Up" in the navigation bar
 2. Complete the registration process
-3. You'll be automatically redirected to the dashboard
-4. Generate your API key from the "API Key" tab
+3. You'll be redirected to the dashboard
+4. Subscribe to get access to the API:
+   - Click "Subscribe" in the dashboard
+   - Enter your payment details (required for both free and paid usage)
+   - You'll get 10,000 free tokens per month
+   - Additional usage is billed at $0.001 per 1000 tokens
 
-### 2. Installation
+### 2. Getting Your API Key
+
+Once subscribed:
+1. Go to the "API Key" tab in your dashboard
+2. Click "Generate API Key"
+3. Copy and securely store your API key
+   - Note: API keys can't be viewed again after generation
+   - You can generate new keys at any time
+
+### 3. Installation
 
 ```bash
 npm install @infer/node-sdk
 ```
 
-### 3. Basic Usage
+### 4. Basic Usage
 
 ```typescript
 import Infer from '@infer/node-sdk';
@@ -90,7 +103,7 @@ const result = await infer.zeroShot.classify({
 });
 ```
 
-### 4. Error Handling
+### 5. Error Handling
 
 The SDK provides built-in error handling with specific error types:
 
@@ -155,7 +168,7 @@ try {
     - `code`: Machine-readable error code
     - `status`: HTTP status code
 
-### 5. API Reference
+### 6. API Reference
 
 #### ZeroShot Classification
 
@@ -187,7 +200,7 @@ The `zeroShot.classify` method accepts a `ZeroShotRequest` object and returns a 
 - `labels`: Array of labels ordered by confidence
 - `scores`: Corresponding confidence scores (0-1)
 
-### 6. Dashboard Features
+### 7. Dashboard Features
 
 The dashboard provides several key features:
 
@@ -206,7 +219,7 @@ The dashboard provides several key features:
    - Billing cycle tracking
    - Payment method management
 
-### 7. Pricing & Usage
+### 8. Pricing & Usage
 
 #### Free Tier
 All new accounts automatically receive:
