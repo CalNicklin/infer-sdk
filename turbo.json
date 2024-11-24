@@ -4,16 +4,27 @@
     "tasks": {
         "build": {
             "dependsOn": ["^build"],
-            "outputs": ["dist/**", ".next/**", "build/**"]
-        },
-        "web#build": {
-            "dependsOn": ["^build"],
+            "outputs": ["dist/**", ".next/**", "build/**"],
             "env": [
+                "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY",
                 "CLERK_SECRET_KEY",
                 "UNKEY_TOKEN",
                 "UNKEY_API_ID",
                 "STRIPE_SECRET_KEY",
-                "STRIPE_PRICE_ID"
+                "STRIPE_PRICE_ID",
+                "NODE_ENV"
+            ]
+        },
+        "web#build": {
+            "dependsOn": ["^build"],
+            "env": [
+                "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY",
+                "CLERK_SECRET_KEY",
+                "UNKEY_TOKEN",
+                "UNKEY_API_ID",
+                "STRIPE_SECRET_KEY",
+                "STRIPE_PRICE_ID",
+                "NODE_ENV"
             ],
             "outputs": [".next/**", "!.next/cache/**"]
         },
