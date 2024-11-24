@@ -8,6 +8,7 @@ The Infer SDK provides fast, type-safe access to ML inference in serverless envi
 
 - **Single API Key**: Access all ML capabilities through one API key - no need to provision separate endpoints
 - **No Cold Starts**: Unlike traditional serverless ML deployments, Infer maintains warm instances for immediate inference
+- **Full TypeScript Support**: Enjoy type safety and improved developer experience.
 - **Zero Setup**: No need to download models, configure ONNX runtime, or provision GPUs
 - **Cost Effective**: Pay only for what you use, with no minimum costs and prices significantly lower than dedicated GPU endpoints
 - **Serverless Ready**: Built specifically for serverless environments where downloading large models isn't practical

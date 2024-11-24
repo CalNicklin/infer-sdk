@@ -30,9 +30,8 @@ export function Nav() {
 
   const menuItems = [
     { name: "Home", section: "/" },
-    { name: "Features", section: "/features" },
-    { name: "Pricing", section: "/pricing" },
     { name: "Docs", section: "/docs" },
+    { name: "Pricing", section: "/pricing" },
   ];
 
   return (

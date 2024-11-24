@@ -26,7 +26,7 @@ export default function HomePage() {
       transition={springTransition}
     >
       <motion.p
-        className="text-xl sm:text-2xl text-white/60 font-light tracking-wide"
+        className="text-xl sm:text-2xl text-white/80 font-semibold tracking-tight"
         variants={fadeInVariants}
       >
         Fast ML inference for serverless environments
