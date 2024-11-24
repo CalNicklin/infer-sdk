@@ -37,28 +37,28 @@ The Infer SDK provides fast, type-safe access to ML inference in serverless envi
 **Infer SDK**
 - Cold Start Time: Instant
 - Setup Required: None
-- Cost: $0.001/1k tokens
+- Cost: £0.001 per 1,000 tokens
 - Maintenance: None
 - Access: Single API key for all ML operations
 - Scaling: Automatic, no dedicated instances needed
 
 **Self-hosted Transformers.js**
-- Cold Start Time: 10-30s
+- Cold Start Time: Varies by model size (typically 5-60s)
 - Setup Required: Model download & ONNX setup
-- Cost: Server costs
+- Cost: Varies based on hosting infrastructure
 - Maintenance: Self-managed
 - Access: Separate setup for each model
 - Scaling: Manual scaling required
 
 **HuggingFace Endpoints**
-- Cold Start Time: 30s-4mins
+- Cold Start Time: Varies by model (typically 1-5 minutes)
 - Setup Required: Inference Endpoint creation, account setup
-- Cost: Based on model and GPU, min uptime 15mins.
+- Cost: From $0.06/hour for CPU to +$0.60/hour for GPU
 - Maintenance: None
 - Access: Separate endpoint (and GPU) needed per model
 - Scaling: Manual endpoint provisioning per task
 
-> **Note**: Infer provides a single API key that gives instant access to all ML capabilities, unlike HuggingFace where you need to provision and pay for separate GPU endpoints for each type of ML task. This means no setup time, no minimum costs, and no infrastructure management.
+> **Note**: Infer provides a single API key that gives instant access to all ML capabilities, with no minimum costs or infrastructure management required. Pay only for what you use, starting with 10,000 free tokens monthly.
 
 ## Getting Started
 
@@ -71,7 +71,7 @@ The Infer SDK provides fast, type-safe access to ML inference in serverless envi
    - Click "Subscribe" in the dashboard
    - Enter your payment details (required for both free and paid usage)
    - You'll get 10,000 free tokens per month
-   - Additional usage is billed at $0.001 per 1000 tokens
+   - Additional usage is billed at £0.001 per 1,000 tokens
 
 ### 2. Getting Your API Key
 
@@ -229,7 +229,7 @@ All new accounts automatically receive:
 
 #### Paid Usage
 After exceeding the free tier:
-- $0.001 per 1000 tokens
+- £0.001 per 1,000 tokens
 - Pay only for what you use beyond the free allocation
 
 For detailed API specifications, see our [API Documentation](/api-reference).
