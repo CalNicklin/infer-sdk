@@ -17,5 +17,10 @@ COPY src/ .
 
 # Set environment variables
 ENV PYTHONUNBUFFERED=1
+ENV TORCH_CUDA_ARCH_LIST="7.5 8.0 8.6"
+ENV CUDA_LAUNCH_BLOCKING=0
+
+# Pre-warm the model during container build
+RUN python -c "import handler; print('Model pre-warmed')"
 
 CMD ["python", "-u", "handler.py"]

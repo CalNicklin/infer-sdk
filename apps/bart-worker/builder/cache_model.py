@@ -2,24 +2,24 @@
 RunPod | Transformer | Model Fetcher
 """
 
-from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipeline
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
+import torch
 
-
-def get_pipeline(model, tokenizer):
-    pipe = pipeline(
-        "zero-shot-classification",
-        model=model,
-        tokenizer=tokenizer
+def cache_model():
+    print("Downloading and caching model...")
+    
+    # Download and cache the model
+    model = AutoModelForSequenceClassification.from_pretrained(
+        'facebook/bart-large-mnli',
+        torch_dtype=torch.float16  # Cache in FP16 to save space
     )
-    return pipe
-
-
-def get_model():
-    model = AutoModelForSequenceClassification.from_pretrained('facebook/bart-large-mnli')
+    model.save_pretrained('/root/.cache/huggingface/hub/facebook/bart-large-mnli')
+    
+    # Download and cache the tokenizer
     tokenizer = AutoTokenizer.from_pretrained('facebook/bart-large-mnli')
-    get_pipeline(model, tokenizer)
-    return model, tokenizer
-
+    tokenizer.save_pretrained('/root/.cache/huggingface/hub/facebook/bart-large-mnli')
+    
+    print("Model and tokenizer cached successfully!")
 
 if __name__ == "__main__":
-    get_model()
+    cache_model()
