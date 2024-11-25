@@ -1,7 +1,7 @@
 import { ClerkProvider } from "@clerk/nextjs";
+import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 import { Nav } from "@/components/nav";
 import { Background } from "@/components/background";
