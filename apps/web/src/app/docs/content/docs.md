@@ -1,6 +1,6 @@
 # Infer SDK
 
-The Infer SDK provides fast, type-safe access to ML inference in serverless environments. With a single API key, you get instant access to all supported ML capabilities without managing infrastructure or provisioning dedicated GPUs.
+The Infer SDK provides fast, type-safe access to ML inference in serverless environments. With a single API key, you get instant access to all supported ML capabilities without managing infrastructure or provisioning dedicated GPUs. Designed to bridge the gap between simple API services and dedicated ML infrastructure, Infer offers the speed and reliability of dedicated endpoints with the simplicity of a managed API service.
 
 > **Current Status**: The SDK currently supports zero-shot classification, with more ML tasks coming soon including sentiment analysis, summarization i.e. transformers, sentence-transformers and diffusers tasks. All new capabilities will be instantly available to existing API keys.
 
@@ -8,7 +8,7 @@ The Infer SDK provides fast, type-safe access to ML inference in serverless envi
 
 - **Single API Key**: Access all ML capabilities through one API key - no need to provision separate endpoints
 - **No Cold Starts**: Unlike traditional serverless ML deployments, Infer maintains warm instances for immediate inference
-- **Full TypeScript Support**: Enjoy type safety and improved developer experience.
+- **Full TypeScript Support**: Enjoy type safety and improved developer experience
 - **Zero Setup**: No need to download models, configure ONNX runtime, or provision GPUs
 - **Cost Effective**: Pay only for what you use, with no minimum costs and prices significantly lower than dedicated GPU endpoints
 - **Serverless Ready**: Built specifically for serverless environments where downloading large models isn't practical
@@ -38,27 +38,39 @@ The Infer SDK provides fast, type-safe access to ML inference in serverless envi
 - Cold Start Time: Instant
 - Setup Required: None
 - Cost: £0.001 per 1,000 tokens
+- Rate Limits: High throughput
 - Maintenance: None
 - Access: Single API key for all ML operations
-- Scaling: Automatic, no dedicated instances needed
+- Scaling: Automatic, shared infrastructure
+
+**HuggingFace Inference API**
+- Cold Start Time: 2-10 seconds
+- Setup Required: API key only
+- Cost: Free tier with strict rate limits
+- Rate Limits: Low (higher for Pro users)
+- Maintenance: None
+- Access: Single API for all models
+- Scaling: Limited by rate limits
+
+**HuggingFace Inference Endpoints**
+- Cold Start Time: 1-5 minutes
+- Setup Required: Endpoint creation per model
+- Cost: From $0.06/hour for CPU to $0.60/hour for GPU
+- Rate Limits: Based on hardware
+- Maintenance: None
+- Access: Separate endpoint needed per model
+- Scaling: Full autoscaling with dedicated resources
 
 **Self-hosted Transformers.js**
-- Cold Start Time: Varies by model size (typically 5-60s)
+- Cold Start Time: Varies by model size (5-60s)
 - Setup Required: Model download & ONNX setup
 - Cost: Varies based on hosting infrastructure
+- Rate Limits: Self-managed
 - Maintenance: Self-managed
 - Access: Separate setup for each model
 - Scaling: Manual scaling required
 
-**HuggingFace Endpoints**
-- Cold Start Time: Varies by model (typically 1-5 minutes)
-- Setup Required: Inference Endpoint creation, account setup
-- Cost: From $0.06/hour for CPU to +$0.60/hour for GPU
-- Maintenance: None
-- Access: Separate endpoint (and GPU) needed per model
-- Scaling: Manual endpoint provisioning per task
-
-> **Note**: Infer provides a single API key that gives instant access to all ML capabilities, with no minimum costs or infrastructure management required. Pay only for what you use, starting with 10,000 free tokens monthly.
+> **Note**: Infer provides a middle ground between HuggingFace's serverless API and dedicated endpoints. You get faster response times and higher rate limits than the Inference API, but without the complexity and cost of managing dedicated endpoints. Pay only for what you use, starting with 10,000 free tokens monthly.
 
 ## Getting Started
 
