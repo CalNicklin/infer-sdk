@@ -47,7 +47,8 @@ export async function zeroShotHandler(c: Context) {
     if (runpodResponse.status === 'FAILED' || runpodResponse.output.status === 'error') {
       console.error('RunPod error:', runpodResponse)
       return c.json({
-        error: 'Model inference failed',
+        code: 'model_error',
+        message: 'Model inference failed',
         details: runpodResponse.output.error
       }, 502)
     }
@@ -59,6 +60,10 @@ export async function zeroShotHandler(c: Context) {
 
   } catch (error) {
     console.error('Error:', error)
-    return c.json({ error: 'Internal server error' }, 500)
+    return c.json({ 
+      code: 'server_error',
+      message: error instanceof Error ? error.message : 'Internal server error',
+      details: error instanceof Error ? error.stack : undefined
+    }, 500)
   }
 }

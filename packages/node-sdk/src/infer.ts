@@ -1,5 +1,5 @@
 import { ZeroShotRequest, type InferConfig, type ZeroShotResponse } from './types.js';
-import { InferError, UnauthorizedError, RateLimitError } from './error.js';
+import { InferError, UnauthorizedError, RateLimitError, ModelError, ServerError } from './error.js';
 
 class Infer {
   private apiKey: string;
@@ -15,6 +15,11 @@ class Infer {
       return await response.json() as T;
     }
 
+    const errorData = await response.json().catch(() => ({
+      message: 'Unknown error occurred',
+      code: 'unknown_error'
+    })) as { message: string; code?: string };
+
     if (response.status === 401) {
       throw new UnauthorizedError();
     }
@@ -23,13 +28,17 @@ class Infer {
       throw new RateLimitError();
     }
 
-    const error = await response.json().catch(() => ({
-      message: 'Unknown error occurred'
-    })) as { message: string }
+    if (response.status === 502) {
+      throw new ModelError(errorData.message);
+    }
+
+    if (response.status === 500) {
+      throw new ServerError(errorData.message);
+    }
 
     throw new InferError({
-      code: 'server_error',
-      message: error.message,
+      code: errorData.code || 'unknown_error',
+      message: errorData.message,
       status: response.status
     });
   }
