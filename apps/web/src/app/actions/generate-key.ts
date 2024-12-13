@@ -1,7 +1,7 @@
 'use server'
 
 import { env } from '@/env'
-import { auth } from '@clerk/nextjs/server'
+import { auth, currentUser } from '@clerk/nextjs/server'
 import { Unkey } from '@unkey/api'
 import { getSubscription } from './get-subscription'
 
