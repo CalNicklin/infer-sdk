@@ -4,6 +4,9 @@ import { env } from '@/env'
 import { auth, currentUser } from '@clerk/nextjs/server'
 import { Unkey } from '@unkey/api'
 import { getSubscription } from './get-subscription'
+import Stripe from 'stripe'
+
+const stripe = new Stripe(env.STRIPE_SECRET_KEY)
 
 const unkey = new Unkey({ token: env.UNKEY_TOKEN })
 
