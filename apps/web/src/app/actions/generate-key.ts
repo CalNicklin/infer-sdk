@@ -14,6 +14,23 @@ export async function generateApiKey() {
       throw new Error('Unauthorized')
     }
 
+    const user = await currentUser()
+    if (!user) {
+      throw new Error('Unauthorized')
+    }
+
+    // Check for existing customer
+    const customers = await stripe.customers.list({
+      email: user.primaryEmailAddress?.emailAddress,
+      limit: 1,
+    })
+
+    const customer = customers.data[0] ?? await stripe.customers.create({
+      metadata: { userId },
+      email: user.primaryEmailAddress?.emailAddress,
+      name: user.firstName + ' ' + user.lastName
+    })
+
     // Verify active subscription
     const subscription = await getSubscription()
     if (!subscription || subscription.status !== 'active') {
@@ -25,7 +42,7 @@ export async function generateApiKey() {
       apiId: env.UNKEY_API_ID,
       prefix: 'infer',
       ownerId: userId,
-      meta: { subscriptionId: subscription.id }
+      meta: { subscriptionId: subscription.id, stripeCustomerId: customer.id }
     })
 
     return { key: key?.key }
